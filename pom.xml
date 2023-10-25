@@ -2,11 +2,14 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
+
     <groupId>com.hnit</groupId>
-    <artifactId>video</artifactId>
+    <artifactId>qiniuyun_video</artifactId>
     <version>0.0.1-SNAPSHOT</version>
+
     <packaging>pom</packaging>
-    <name>video</name>
+    <name>qiniuyun_video</name>
+
     <description>Demo project for Spring Boot</description>
 
     <properties>
@@ -42,19 +45,16 @@
         <spring-boot-dependencies.version>2.2.5.RELEASE</spring-boot-dependencies.version>
     </properties>
     <modules>
-        <module> </module>
+        <module>hnit_auth</module>
+        <module>hnit_common</module>
+        <module>hnit_gateway</module>
+        <module>hnit_spring_security</module>
+        <module>hnit_ucenter</module>
 
     </modules>
 
     <dependencyManagement>
         <dependencies>
-            <dependency>
-                <groupId>org.springframework.cloud</groupId>
-                <artifactId>spring-cloud-dependencies</artifactId>
-                <version>Hoxton.SR3</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
 
             <dependency>
                 <groupId>org.springframework.boot</groupId>
@@ -63,11 +63,18 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
-
+            <!--Spring Cloud-->
             <dependency>
-                <groupId>com.alibaba.cloud</groupId>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>Hoxton.RELEASE</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-alibaba-dependencies</artifactId>
-                <version>${spring-cloud-alibaba.version}</version>
+                <version>${cloud-alibaba.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -76,6 +83,11 @@
             <dependency>
                 <groupId>com.baomidou</groupId>
                 <artifactId>mybatis-plus-boot-starter</artifactId>
+                <version>${mybatis-plus.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-extension</artifactId>
                 <version>${mybatis-plus.version}</version>
             </dependency>
             <!-- mybatis-plus generator -->
