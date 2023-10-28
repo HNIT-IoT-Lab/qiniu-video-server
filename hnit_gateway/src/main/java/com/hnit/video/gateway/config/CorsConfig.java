@@ -10,7 +10,7 @@ import org.springframework.web.util.pattern.PathPatternParser;
 
 // 跨域配置
 @Configuration
-@ComponentScan(basePackages = {"com.hnit"})
+@ComponentScan(basePackages = {"com.hnit.video"})
 public class CorsConfig {
     @Bean
     public CorsWebFilter corsFilter() {

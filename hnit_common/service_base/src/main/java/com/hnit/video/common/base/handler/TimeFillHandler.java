@@ -6,7 +6,9 @@ import org.springframework.stereotype.Component;
 
 import java.util.Date;
 
-// 自动填充时间数据
+/**
+ * 自动填充时间数据
+ */
 @Component
 public class TimeFillHandler implements MetaObjectHandler {
     @Override

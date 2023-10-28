@@ -12,7 +12,7 @@ import java.util.List;
 
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
-        /**
+     /**
      * 序列化json时,将所有的long变成string
      * 因为js中得数字类型不能包含所有的java long值
      */

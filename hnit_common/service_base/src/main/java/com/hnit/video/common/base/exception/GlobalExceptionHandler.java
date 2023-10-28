@@ -6,7 +6,7 @@ import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-
+import com.hnit.video.common.base.exception.MyException;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
     // 所有异常都能被该函数处理
@@ -17,8 +17,8 @@ public class GlobalExceptionHandler {
     }
 
     // 自定义异常处理
-    @ExceptionHandler(value = OESException.class)
-    public Result error(OESException e) {
+    @ExceptionHandler(value = MyException.class)
+    public Result error(MyException e) {
         e.printStackTrace();
         return Result.failure().message(e.getMessage()).code(e.getCode());
     }

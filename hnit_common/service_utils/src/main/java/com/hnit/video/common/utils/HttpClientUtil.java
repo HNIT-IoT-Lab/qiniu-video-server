@@ -35,8 +35,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
-
-
 public class HttpClientUtil {
     public static final int connTimeout = 10000;
     public static final int readTimeout = 10000;

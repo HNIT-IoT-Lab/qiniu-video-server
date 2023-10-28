@@ -24,7 +24,7 @@ public class SwaggerConfig {
 
     private ApiInfo webApiInfo() {
         return new ApiInfoBuilder()
-                .title("OES在线教育系统API文档")
+                .title("video在线教育系统API文档")
                 .description("本文档描述类课程中心微服务接口定义")
                 .version("1.0")
                 .contact(new Contact("nichijoux", "https://github.com/nichijoux", "1647365387@qq.com"))

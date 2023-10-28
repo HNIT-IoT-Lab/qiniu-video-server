@@ -3,7 +3,7 @@ package com.hnit.video.common.utils;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-
+import com.hnit.video.common.utils.Result;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 

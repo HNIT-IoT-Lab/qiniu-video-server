@@ -3,7 +3,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.hnit</groupId>
+    <groupId>com.hnit.video</groupId>
     <artifactId>qiniuyun_video</artifactId>
     <version>0.0.1-SNAPSHOT</version>
 
@@ -45,17 +45,13 @@
         <spring-boot-dependencies.version>2.2.5.RELEASE</spring-boot-dependencies.version>
     </properties>
     <modules>
-        <module>hnit_auth</module>
         <module>hnit_common</module>
         <module>hnit_gateway</module>
-        <module>hnit_spring_security</module>
-        <module>hnit_ucenter</module>
-
+        <module>hnit_service</module>
+        <module>hnit_model</module>
     </modules>
-
     <dependencyManagement>
         <dependencies>
-
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-dependencies</artifactId>
