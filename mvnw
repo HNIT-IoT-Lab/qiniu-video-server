@@ -185,7 +185,7 @@ log "$MAVEN_PROJECTBASEDIR"
 
 ##########################################################################################
 # Extension to allow automatically downloading the maven-wrapper.jar from Maven-central
-# This allows using the maven wrapper in projects that prohibit checking in binary data.
+# This allows using the maven wrapper in projects that prohibit chechnit in binary data.
 ##########################################################################################
 wrapperJarPath="$MAVEN_PROJECTBASEDIR/.mvn/wrapper/maven-wrapper.jar"
 if [ -r "$wrapperJarPath" ]; then
@@ -199,7 +199,7 @@ else
       wrapperUrl="https://repo.maven.apache.org/maven2/org/apache/maven/wrapper/maven-wrapper/3.2.0/maven-wrapper-3.2.0.jar"
     fi
     while IFS="=" read -r key value; do
-      # Remove '\r' from value to allow usage on windows as IFS does not consider '\r' as a separator ( considers space, tab, new line ('\n'), and custom '=' )
+      # Remove '\r' from value to allow usage on windows as IFS dvideo not consider '\r' as a separator ( considers space, tab, new line ('\n'), and custom '=' )
       safeValue=$(echo "$value" | tr -d '\r')
       case "$key" in (wrapperUrl) wrapperUrl="$safeValue"; break ;;
       esac
