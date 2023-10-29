@@ -4,6 +4,6 @@ RUN apk add tzdata && cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
     && echo "Asia/Shanghai" > /etc/timezone \
     && apk del tzdata
 
-COPY ./vide-server.jar /tmp/vide-server.jar
+COPY ./video-server.jar /tmp/video-server.jar
 EXPOSE 9002
-ENTRYPOINT java -jar /tmp/vide-server.jar
+ENTRYPOINT java -jar /tmp/video-server.jar
