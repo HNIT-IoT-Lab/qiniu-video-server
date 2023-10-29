@@ -45,10 +45,8 @@ jobs:
           # 交叉编译
           docker buildx create --use
           docker buildx inspect --bootstrap
-          docker buildx build --platform linux/arm64 . --file Dockerfile.arm64 --tag ${{ vars.hubAddr }}/${{ vars.USER_NAME }}/${{ vars.IMAGE_NAME }}:${{ vars.tag }}
-          docker buildx build --platform linux/amd64 . --file Dockerfile.amd64 --tag ${{ vars.hubAddr }}/${{ vars.USER_NAME }}/${{ vars.IMAGE_NAME }}:${{ vars.tag }}
-          # 推送镜像到镜像仓库
-          docker push ${{ vars.hubAddr }}/${{ vars.USER_NAME }}/${{ vars.IMAGE_NAME }}:${{ vars.tag }}
+          docker buildx build --platform linux/arm64 . --file Dockerfile.arm64 --tag ${{ vars.hubAddr }}/${{ vars.USER_NAME }}/${{ vars.IMAGE_NAME }}:${{ vars.tag }} --push
+          docker buildx build --platform linux/amd64 . --file Dockerfile.amd64 --tag ${{ vars.hubAddr }}/${{ vars.USER_NAME }}/${{ vars.IMAGE_NAME }}:${{ vars.tag }} --push
       # push后，用ssh连接服务器执行脚本    
       - name: 登录服务器, 执行脚本
         uses: appleboy/ssh-action@master
