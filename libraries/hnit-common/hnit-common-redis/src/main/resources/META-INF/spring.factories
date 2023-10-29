@@ -1,0 +1,3 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  cn.hnit.common.redis.config.RedisConfig,\
+  cn.hnit.common.redis.operator.RedisOperator

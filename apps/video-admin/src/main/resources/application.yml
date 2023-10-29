@@ -1,0 +1,21 @@
+server:
+  port: 9001
+  servlet:
+    context-path: /admin
+  compression:
+    enabled: true
+    mime-types: application/json
+  tomcat: # see from ServerProperties
+    basedir: ${logging.path}
+    accesslog:
+      enabled: true
+      directory: ./
+      pattern: '%h %l %u %t %s %T "%r" %b "%{User-Agent}i"'
+spring:
+  profiles:
+    active: dev
+logging:
+  pattern:
+    #日志格式
+    console: "%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} %clr(%5p) - %clr([%t]){faint} %X{traceId} %clr(%logger{39}){cyan} %clr(:){faint} %m%n%wEx"
+    file: "%d{yyyy-MM-dd HH:mm:ss.SSS} %5p - [%t] %X{log_id} %logger{39} : %m%n%wEx"

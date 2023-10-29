@@ -1,0 +1,5 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  cn.hnit.common.mybatis.config.MyBatisConfig,\
+  cn.hnit.common.mybatis.log.MybatisStdOutImpl
+
+  

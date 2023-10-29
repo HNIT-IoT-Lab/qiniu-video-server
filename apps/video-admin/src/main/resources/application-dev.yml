@@ -1,0 +1,81 @@
+mongo-redis:
+  host: volunteer.fengxianhub.top
+spring:
+  data:
+    mongodb:
+      host: ${mongo-redis.host}
+      port: 20085
+      database: chat-admin
+      password: '123456'
+      username: admin
+#      uri: mongodb://admin:123456@${mongo-redis.host}:20085/chat-admin
+      authentication-database: admin
+      option:
+        max-connection-idle-time: 900000
+        max-connection-per-host: 200
+        min-connection-per-host: 20
+        socket-timeout: 30000
+        threads-allowed-to-block-for-connection-multiplier: 10
+  redis:
+    database: 10
+    host: ${mongo-redis.host}
+    password: lark2022
+    port: 20081
+    timeout: 10000
+    lettuce:
+      pool:
+        max-active: 300
+        max-idle: 8
+        max-wait: 2000
+        min-idle: 0
+      shutdown-timeout: 100
+        # ====================================================================================
+        # spring-redis-redisson
+        # ====================================================================================
+#    redisson:
+#      # file: classpath:redisson.yaml
+#      config: |
+#        # 单机
+#        # singleServerConfig:
+#            # password: null
+#            # timeout: 10000
+#            # address: redis://10.210.10.154:7004
+#
+#        # 集群
+#        clusterServersConfig:
+#            nodeAddresses:
+#            - "redis://10.210.13.203:6381"
+#            - "redis://10.210.13.203:6382"
+#            - "redis://10.210.13.203:6383"
+#            - "redis://10.210.13.203:6384"
+#            - "redis://10.210.13.203:6385"
+#            - "redis://10.210.13.203:6386"
+#            password: null
+#            loadBalancer: !<org.redisson.connection.balancer.RoundRobinLoadBalancer> {}
+#            slaveConnectionMinimumIdleSize: 8
+#            slaveConnectionPoolSize: 16
+#            sslEnableEndpointIdentification: false
+#            timeout: 3000
+#
+#        # 所有Redis节点客户端之间共享的线程数量，默认值: 当前处理核数量 * 2
+#        threads: 24
+#        # Netty线程池数量，默认值: 当前处理核数量 * 2
+#        nettyThreads: 12
+#        # 传输模式，默认值：NIO
+#        transportMode: NIO
+############## Sa-Token 配置 (文档: https://sa-token.cc) ##############
+sa-token:
+  # token名称 (同时也是cookie名称)
+  token-name: satoken
+  # token有效期，单位s 默认30天, -1代表永不过期
+  timeout: 2592000
+  # token临时有效期 (指定时间内无操作就视为token过期) 单位: 秒
+  activity-timeout: -1
+  # 是否允许同一账号并发登录 (为true时允许一起登录, 为false时新登录挤掉旧登录)
+  is-concurrent: true
+  # 在多人登录同一账号时，是否共用一个token (为true时所有登录共用一个token, 为false时每次登录新建一个token)
+  is-share: true
+  # token风格
+  token-style: uuid
+  # 是否输出操作日志
+  is-log: false
