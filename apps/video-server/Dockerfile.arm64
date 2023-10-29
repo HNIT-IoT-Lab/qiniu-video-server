@@ -1,0 +1,21 @@
+FROM adoptopenjdk:8-jdk-hotspot-bionic AS builder
+
+# 设置时区为上海
+RUN apt-get update && apt-get install -y tzdata
+RUN ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && echo "Asia/Shanghai" > /etc/timezone
+
+COPY ./video-server.jar /tmp/video-server.jar
+
+FROM adoptopenjdk:8-jre-hotspot-bionic
+
+# 设置时区为上海
+RUN apt-get update && apt-get install -y tzdata
+RUN ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && echo "Asia/Shanghai" > /etc/timezone
+
+COPY --from=builder /tmp/video-server.jar /tmp/video-server.jar
+
+EXPOSE 9002
+ENTRYPOINT java -jar /tmp/video-server.jar
+
+# 配置文件
+VOLUME /config

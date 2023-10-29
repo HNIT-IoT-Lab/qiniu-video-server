@@ -37,11 +37,16 @@ jobs:
           docker login --username=${{ secrets.DOCKER_HUB_USERNAME }} --password=${{ secrets.DOCKER_PASSWORD }} registry.cn-hangzhou.aliyuncs.com
           cd apps/video-server
           mkdir docker
-          cp ./Dockerfile ./docker
+          cp ./Dockerfile.amd64 ./docker
+          cp ./Dockerfile.arm64 ./docker
           cp ./target/*.jar ./docker
           cd docker
           # 使用Dockerfile构建镜像
-          docker build . --file Dockerfile --tag ${{ vars.hubAddr }}/${{ vars.USER_NAME }}/${{ vars.IMAGE_NAME }}:${{ vars.tag }}
+          # 交叉编译
+          docker buildx create --use
+          docker buildx inspect --bootstrap
+          docker buildx build --platform linux/arm64 . --file Dockerfile.arm64 --tag ${{ vars.hubAddr }}/${{ vars.USER_NAME }}/${{ vars.IMAGE_NAME }}:${{ vars.tag }}
+          docker buildx build --platform linux/amd64 . --file Dockerfile.amd64 --tag ${{ vars.hubAddr }}/${{ vars.USER_NAME }}/${{ vars.IMAGE_NAME }}:${{ vars.tag }}
           # 推送镜像到镜像仓库
           docker push ${{ vars.hubAddr }}/${{ vars.USER_NAME }}/${{ vars.IMAGE_NAME }}:${{ vars.tag }}
       # push后，用ssh连接服务器执行脚本    
