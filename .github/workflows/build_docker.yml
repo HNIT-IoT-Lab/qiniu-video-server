@@ -35,7 +35,7 @@ jobs:
           docker version
           # 登录阿里云镜像仓库
           docker login --username=${{ secrets.DOCKER_HUB_USERNAME }} --password=${{ secrets.DOCKER_PASSWORD }} registry.cn-hangzhou.aliyuncs.com
-          cd apps/vide-server
+          cd apps/video-server
           mkdir docker
           cp ./Dockerfile ./docker
           cp ./target/*.jar ./docker
