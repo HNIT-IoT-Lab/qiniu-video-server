@@ -56,8 +56,6 @@ jobs:
           port: ${{ secrets.SSH_PORT }}
           username: ${{ secrets.SSH_USER }}
           password: ${{ secrets.SSH_PASSWORD }}
-          source: "deploy.sh"  # 本地脚本的路径
-          target: "/root/script/deploy.sh"  # 远程服务器上的目标路径
           # 执行脚本
           script: |
             # 部署脚本 后面的vars是传递给脚本的参数
