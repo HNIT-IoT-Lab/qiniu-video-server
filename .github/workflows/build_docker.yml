@@ -48,16 +48,21 @@ jobs:
       #     docker buildx build --platform linux/arm64/v8 . --file Dockerfile.arm64 --tag ${{ vars.hubAddr }}/${{ vars.USER_NAME }}/${{ vars.IMAGE_NAME }}:${{ vars.tag }} --push
       #     #docker buildx build --platform linux/arm64 . --file Dockerfile.arm64 --tag ${{ vars.hubAddr }}/${{ vars.USER_NAME }}/${{ vars.IMAGE_NAME }}:${{ vars.tag }} --push
       #     #docker buildx build --platform linux/amd64 . --file Dockerfile.amd64 --tag ${{ vars.hubAddr }}/${{ vars.USER_NAME }}/${{ vars.IMAGE_NAME }}:${{ vars.tag }} --push
+      # scp
+      - name: scp jar
+        run: |
+          scp -P ${{ secrets.SSH_PORT }} *.jar ${{ secrets.SSH_USER }}:${{ secrets.SSH_PASSWORD }}@${{ secrets.SSH_REMOTE_HOST }}:/mnt/hdd1
+          scp -P ${{ secrets.SSH_PORT }} *.jar ${{ secrets.SSH_USER }}:${{ secrets.SSH_PASSWORD }}@${{ secrets.SSH_REMOTE_HOST }}:/mnt/hdd1
       # push后，用ssh连接服务器执行脚本
-      - name: 登录服务器, 执行脚本
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.SSH_REMOTE_HOST }}
-          port: ${{ secrets.SSH_PORT }}
-          username: ${{ secrets.SSH_USER }}
-          password: ${{ secrets.SSH_PASSWORD }}
-          script: |
-            # 部署脚本 后面的vars是传递给脚本的参数
-            scp -P ${{ secrets.SSH_PORT }} deploy.sh ${{ secrets.SSH_USER }}:${{ secrets.SSH_PASSWORD }}@${{ secrets.SSH_REMOTE_HOST }}:/root/script/deploy
-            scp -P ${{ secrets.SSH_PORT }} *.jar ${{ secrets.SSH_USER }}:${{ secrets.SSH_PASSWORD }}@${{ secrets.SSH_REMOTE_HOST }}:/mnt/hdd1
-            # sh /root/script/deploy/deploy.sh ${{ vars.USER_NAME }} ${{ vars.IMAGE_NAME }} ${{ vars.PORT }} ${{ vars.CONTAINS_PORT }} ${{ vars.hubAddr }} ${{ vars.tag }}
+      # - name: 登录服务器, 执行脚本
+      #   uses: appleboy/ssh-action@master
+      #   with:
+      #     host: ${{ secrets.SSH_REMOTE_HOST }}
+      #     port: ${{ secrets.SSH_PORT }}
+      #     username: ${{ secrets.SSH_USER }}
+      #     password: ${{ secrets.SSH_PASSWORD }}
+      #     script: |
+      #       # 部署脚本 后面的vars是传递给脚本的参数
+      #       scp -P ${{ secrets.SSH_PORT }} deploy.sh ${{ secrets.SSH_USER }}:${{ secrets.SSH_PASSWORD }}@${{ secrets.SSH_REMOTE_HOST }}:/root/script/deploy
+      #       scp -P ${{ secrets.SSH_PORT }} *.jar ${{ secrets.SSH_USER }}:${{ secrets.SSH_PASSWORD }}@${{ secrets.SSH_REMOTE_HOST }}:/mnt/hdd1
+      #       # sh /root/script/deploy/deploy.sh ${{ vars.USER_NAME }} ${{ vars.IMAGE_NAME }} ${{ vars.PORT }} ${{ vars.CONTAINS_PORT }} ${{ vars.hubAddr }} ${{ vars.tag }}
