@@ -36,6 +36,11 @@ public class UserController {
         return userService.Login(paramMap);
     }
 
+    @PostMapping("/logOut")
+    public void LoginOut(@RequestBody Map<String, Object> paramMap) {
+        userService.LogOut(paramMap);
+    }
+
     @AuthIgnore
     @PostMapping("/sendSmsCode")
     public String SendSmsCode(@Validated @RequestBody PhoneVO vo) {
@@ -59,6 +64,14 @@ public class UserController {
     @PostMapping("/uploadImage")
     public UserVO UploadImage(@RequestPart("file") MultipartFile file) {
         return BeanUtil.copyProperties(userService.updateAvatar(file), UserVO.class);
+    }
+
+    /**
+     * 通用上传接口
+     */
+    @PostMapping("/upload")
+    public String Upload(@RequestPart("file") MultipartFile file) {
+        return userService.upload(file);
     }
 
 

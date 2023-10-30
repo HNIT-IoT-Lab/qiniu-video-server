@@ -9,8 +9,13 @@
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
-    <groupId>org.example</groupId>
+    <groupId>cn.hnit</groupId>
     <artifactId>common</artifactId>
+    <version>1.0.0</version>
+    <packaging>pom</packaging>
+    <modules>
+        <module>kodo</module>
+    </modules>
 
     <properties>
         <maven.compiler.source>8</maven.compiler.source>

@@ -86,21 +86,20 @@ public class ResponseMsg<T> implements Serializable {
         responseMsg.setMsg("失败");
         return responseMsg;
     }
-
-    /**
-     * 返回结果集
-     */
-    private T data;
-    /**
-     * 返回消息
-     */
-    private String msg;
     /**
      * 响应码
      */
     private Integer code;
     /**
+     * 返回消息
+     */
+    private String msg;
+    /**
      * 链路id
      */
     private String traceId;
+    /**
+     * 返回结果集
+     */
+    private T data;
 }

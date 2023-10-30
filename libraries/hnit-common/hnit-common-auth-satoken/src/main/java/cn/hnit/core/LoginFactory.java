@@ -26,7 +26,7 @@ public class LoginFactory {
     }
 
     public static void register(String loginSign, LoginHandle loginHandle) {
-        if (loginSign == null || "".equals(loginSign) || Objects.isNull(loginHandle)) {
+        if (loginSign == null || loginSign.isEmpty() || Objects.isNull(loginHandle)) {
             throw new RuntimeException("登录策略注册失败，参数错误");
         }
         // 将策略注册到工厂中

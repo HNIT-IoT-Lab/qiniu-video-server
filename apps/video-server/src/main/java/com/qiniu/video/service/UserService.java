@@ -16,6 +16,7 @@ import java.util.Map;
  */
 public interface UserService {
     LoginVO Login(Map<String, Object> paramMap);
+    LoginVO LogOut(Map<String, Object> paramMap);
     /**
      * 通过手机号获取用户 没有就生成用户并返回
      */
@@ -28,5 +29,6 @@ public interface UserService {
     User FindByUserName(String userName);
     User FindById(Long id);
     User updateAvatar(MultipartFile file);
+    String upload(MultipartFile file);
     User updateUserName(String userName);
 }

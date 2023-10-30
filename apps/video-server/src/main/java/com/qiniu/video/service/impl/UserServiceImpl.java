@@ -13,10 +13,13 @@ import com.qiniu.video.component.OSSOperator;
 import com.qiniu.video.component.TencentSmsOperator;
 import com.qiniu.video.dao.UserDao;
 import com.qiniu.video.entity.User;
+import com.qiniu.video.service.FilesService;
 import com.qiniu.video.service.UserService;
 import com.qiniu.video.utils.AESUtil;
+import com.qiniu.video.utils.RandomUsernameGenerator;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.cn.hnit.video.kodo.service.QiniuKodoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -57,6 +60,10 @@ public class UserServiceImpl implements UserService {
     private OSSOperator ossOperator;
     @Autowired
     private TencentSmsOperator smsOperator;
+    @Autowired
+    private QiniuKodoService qiniuKodoService;
+    @Autowired
+    private FilesService userFileService;
 
 
     public User FindByUserName(String userName) {
@@ -69,6 +76,13 @@ public class UserServiceImpl implements UserService {
         return LoginFactory.getLoginStrategy(String.valueOf(loginSign)).login(paramMap);
     }
 
+    @Override
+    public LoginVO LogOut(Map<String, Object> paramMap) {
+        Object loginSign = paramMap.get("loginSign");
+        AssertUtil.notNull(loginSign, "请选择登出类型");
+        return LoginFactory.getLoginStrategy(String.valueOf(loginSign)).logOut(paramMap);
+    }
+
     public User AddOrDefault(String phoneNumber) {
         User user = FindByPhoneNumber(phoneNumber);
         return user == null ? RegisterByPhoneNumber(phoneNumber) : user;
@@ -79,7 +93,12 @@ public class UserServiceImpl implements UserService {
     }
 
     public User RegisterByPhoneNumber(String phoneNumber) {
-        return userDao.save(User.builder().phoneNumber(AESUtil.aesEncrypt(phoneNumber)).build());
+        String DEFAULT_AVATAR = "https://cdn.fengxianhub.top/resources-master/OIP.jpg";
+        return userDao.save(User.builder()
+                .phoneNumber(AESUtil.aesEncrypt(phoneNumber))
+                .userName(RandomUsernameGenerator.generateRandomUsername())
+                .avatar(DEFAULT_AVATAR)
+                .build());
     }
 
     public User UpdateUserName(String userName) {
@@ -123,6 +142,23 @@ public class UserServiceImpl implements UserService {
                 Update.update(User.Fields.avatar, avatarUrl),
                 Criteria.where(BaseEntity.Fields.id).is(UserContext.getUserId()));
         return FindById(UserContext.getUserId());
+    }
+
+    @Override
+    public String upload(MultipartFile file) {
+        AssertUtil.notNull(file, "上传文件不能为空");
+
+        String filePath = "";
+        try {
+            filePath = qiniuKodoService.uploadFromInputStream(file.getInputStream(), file.getOriginalFilename(), file.getSize());
+        } catch (Exception e) {
+            log.error("上传失败, {}", e.getMessage());
+            throw new AppException("上传失败");
+        }
+        // 保存用户上传得文件
+        String finalFilePath = filePath;
+        asyncExecutor.submit(() -> userFileService.SaveUserFile(finalFilePath));
+        return filePath;
     }
 
     @Override

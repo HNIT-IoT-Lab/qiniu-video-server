@@ -40,4 +40,9 @@ public class AccountLoginStrategy implements LoginHandle {
         return new LoginVO();
     }
 
+    @Override
+    public LoginVO logOut(Map<String, Object> params) {
+        return null;
+    }
+
 }

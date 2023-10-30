@@ -6,7 +6,9 @@ import cn.hnit.core.LoginFactory;
 import cn.hnit.entity.LoginVO;
 import cn.hnit.handle.LoginHandle;
 import cn.hnit.utils.AssertUtil;
+import cn.hnit.utils.context.UserContext;
 import cn.hutool.crypto.digest.DigestUtil;
+import com.qiniu.video.entity.User;
 import com.qiniu.video.service.impl.UserServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,6 +49,12 @@ public class PhoneNumberLoginStrategy implements LoginHandle {
         // 如果没有该用户 则默认注册
         StpUtil.login(userService.AddOrDefault(stringPhoneNumber).getId());
         return LoginVO.builder().token(StpUtil.getTokenValue()).build();
+    }
+
+    @Override
+    public LoginVO logOut(Map<String, Object> params) {
+        StpUtil.logout();
+        return  LoginVO.builder().token("").build();
     }
 
     @Override

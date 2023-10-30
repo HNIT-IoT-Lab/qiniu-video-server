@@ -17,5 +17,6 @@ public interface LoginHandle extends InitializingBean {
      * @return
      */
     LoginVO login(Map<String, Object> params);
+    LoginVO logOut(Map<String, Object> params);
 
 }
