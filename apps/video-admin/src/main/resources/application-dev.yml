@@ -1,5 +1,5 @@
 mongo-redis:
-  host: volunteer.fengxianhub.top
+  host: {{ .host }}
 spring:
   data:
     mongodb:

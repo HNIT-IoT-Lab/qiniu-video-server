@@ -15,7 +15,7 @@ RUN ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && echo "Asia/Shangh
 COPY --from=builder /tmp/video-server.jar /tmp/video-server.jar
 
 EXPOSE 9002
-ENTRYPOINT java -jar /tmp/video-server.jar
-
 # 配置文件
 VOLUME /config
+
+CMD ["java", "-jar", "/tmp/video-server.jar", "--spring.config.location=file:/config/application-dev.yml"]
