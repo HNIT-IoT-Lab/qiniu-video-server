@@ -48,8 +48,6 @@ jobs:
       #     docker buildx build --platform linux/arm64/v8 . --file Dockerfile.arm64 --tag ${{ vars.hubAddr }}/${{ vars.USER_NAME }}/${{ vars.IMAGE_NAME }}:${{ vars.tag }} --push
       #     #docker buildx build --platform linux/arm64 . --file Dockerfile.arm64 --tag ${{ vars.hubAddr }}/${{ vars.USER_NAME }}/${{ vars.IMAGE_NAME }}:${{ vars.tag }} --push
       #     #docker buildx build --platform linux/amd64 . --file Dockerfile.amd64 --tag ${{ vars.hubAddr }}/${{ vars.USER_NAME }}/${{ vars.IMAGE_NAME }}:${{ vars.tag }} --push
-      - name: Verify Host Key
-        run: ssh-keyscan -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_REMOTE_HOST }} >> ~/.ssh/known_hosts
       # push后，用ssh连接服务器执行脚本
       - name: 登录服务器, 执行脚本
         uses: appleboy/ssh-action@master
