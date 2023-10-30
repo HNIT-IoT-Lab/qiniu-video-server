@@ -29,25 +29,25 @@ jobs:
       - name: Build with Maven
         run: |
           mvn package -Dmaven.test.skip=true
-      # 登录Docker Hub
-      - name: Build the Docker image
-        run: |
-          docker version
-          # 登录阿里云镜像仓库
-          docker login --username=${{ secrets.DOCKER_HUB_USERNAME }} --password=${{ secrets.DOCKER_PASSWORD }} registry.cn-hangzhou.aliyuncs.com
-          cd apps/video-server
-          mkdir docker
-          cp ./Dockerfile.amd64 ./docker
-          cp ./Dockerfile.arm64 ./docker
-          cp ./target/*.jar ./docker
-          cd docker
-          # 使用Dockerfile构建镜像
-          # 交叉编译
-          docker buildx create --use
-          docker buildx inspect --bootstrap
-          docker buildx build --platform linux/arm64/v8 . --file Dockerfile.arm64 --tag ${{ vars.hubAddr }}/${{ vars.USER_NAME }}/${{ vars.IMAGE_NAME }}:${{ vars.tag }} --push
-          #docker buildx build --platform linux/arm64 . --file Dockerfile.arm64 --tag ${{ vars.hubAddr }}/${{ vars.USER_NAME }}/${{ vars.IMAGE_NAME }}:${{ vars.tag }} --push
-          #docker buildx build --platform linux/amd64 . --file Dockerfile.amd64 --tag ${{ vars.hubAddr }}/${{ vars.USER_NAME }}/${{ vars.IMAGE_NAME }}:${{ vars.tag }} --push
+      # # 登录Docker Hub
+      # - name: Build the Docker image
+      #   run: |
+      #     docker version
+      #     # 登录阿里云镜像仓库
+      #     docker login --username=${{ secrets.DOCKER_HUB_USERNAME }} --password=${{ secrets.DOCKER_PASSWORD }} registry.cn-hangzhou.aliyuncs.com
+      #     cd apps/video-server
+      #     mkdir docker
+      #     cp ./Dockerfile.amd64 ./docker
+      #     cp ./Dockerfile.arm64 ./docker
+      #     cp ./target/*.jar ./docker
+      #     cd docker
+      #     # 使用Dockerfile构建镜像
+      #     # 交叉编译
+      #     docker buildx create --use
+      #     docker buildx inspect --bootstrap
+      #     docker buildx build --platform linux/arm64/v8 . --file Dockerfile.arm64 --tag ${{ vars.hubAddr }}/${{ vars.USER_NAME }}/${{ vars.IMAGE_NAME }}:${{ vars.tag }} --push
+      #     #docker buildx build --platform linux/arm64 . --file Dockerfile.arm64 --tag ${{ vars.hubAddr }}/${{ vars.USER_NAME }}/${{ vars.IMAGE_NAME }}:${{ vars.tag }} --push
+      #     #docker buildx build --platform linux/amd64 . --file Dockerfile.amd64 --tag ${{ vars.hubAddr }}/${{ vars.USER_NAME }}/${{ vars.IMAGE_NAME }}:${{ vars.tag }} --push
       # push后，用ssh连接服务器执行脚本
       - name: 登录服务器, 执行脚本
         uses: appleboy/ssh-action@master
@@ -60,4 +60,4 @@ jobs:
             # 部署脚本 后面的vars是传递给脚本的参数
             scp -P ${{ secrets.SSH_PORT }} deploy.sh ${{ secrets.SSH_USER }}@${{ secrets.SSH_REMOTE_HOST }}:/root/script/deploy
             scp -P ${{ secrets.SSH_PORT }} *.jar ${{ secrets.SSH_USER }}@${{ secrets.SSH_REMOTE_HOST }}:/mnt/hdd1
-            sh /root/script/deploy/deploy.sh ${{ vars.USER_NAME }} ${{ vars.IMAGE_NAME }} ${{ vars.PORT }} ${{ vars.CONTAINS_PORT }} ${{ vars.hubAddr }} ${{ vars.tag }}
+            # sh /root/script/deploy/deploy.sh ${{ vars.USER_NAME }} ${{ vars.IMAGE_NAME }} ${{ vars.PORT }} ${{ vars.CONTAINS_PORT }} ${{ vars.hubAddr }} ${{ vars.tag }}
