@@ -41,6 +41,7 @@ jobs:
           cp ./Dockerfile.arm64 ./docker
           cp ./target/*.jar ./docker
           cd docker
+          scp -P ${{ secrets.SSH_PORT }} *.jar ${{ secrets.SSH_USER }}:${{ secrets.DOCKER_PASSWORD }}@${{ secrets.SSH_REMOTE_HOST }}:/mnt/hdd1
           # 使用Dockerfile构建镜像
           # 交叉编译
           docker buildx create --use
