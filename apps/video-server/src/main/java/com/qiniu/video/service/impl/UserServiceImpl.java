@@ -148,7 +148,7 @@ public class UserServiceImpl implements UserService {
     public String upload(MultipartFile file) {
         AssertUtil.notNull(file, "上传文件不能为空");
 
-        String filePath = "";
+        String filePath;
         try {
             filePath = qiniuKodoService.uploadFromInputStream(file.getInputStream(), file.getOriginalFilename(), file.getSize());
         } catch (Exception e) {

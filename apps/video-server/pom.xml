@@ -134,6 +134,11 @@
             <artifactId>kodo</artifactId>
             <version>1.0.0</version>
         </dependency>
+        <dependency>
+            <groupId>cn.hnit</groupId>
+            <artifactId>es</artifactId>
+            <version>1.0.0</version>
+        </dependency>
     </dependencies>
 
     <build>

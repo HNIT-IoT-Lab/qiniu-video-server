@@ -4,24 +4,29 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>com.qiniu.video</groupId>
-        <artifactId>qiniu_video</artifactId>
-        <version>0.0.1-SNAPSHOT</version>
+        <groupId>cn.hnit</groupId>
+        <artifactId>common</artifactId>
+        <version>1.0.0</version>
     </parent>
 
     <groupId>cn.hnit</groupId>
-    <artifactId>common</artifactId>
-    <version>1.0.0</version>
-    <packaging>pom</packaging>
-    <modules>
-        <module>kodo</module>
-        <module>es</module>
-    </modules>
+    <artifactId>es</artifactId>
 
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-elasticsearch</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+        </dependency>
+    </dependencies>
 
 </project>

@@ -131,6 +131,18 @@ public class GlobalExceptionHandler {
     /**
      * 处理绑定属性效验不通过异常
      */
+    @ExceptionHandler(value = RuntimeException.class)
+    public ResponseMsg<String> runtimeExceptionErrorHandler(Exception ex, HttpServletRequest request) {
+        printErr(ex);
+        ResponseMsg<String> msg = new ResponseMsg<>(SysCode.FAILED, ex.getMessage());
+        msg.setData(StrPool.EMPTY_JSON);
+        msg.setTraceId(LogUtils.getTraceId());
+        return msg;
+    }
+
+    /**
+     * 处理绑定属性效验不通过异常
+     */
     @ExceptionHandler(value = Exception.class)
     public ResponseMsg<String> exceptionErrorHandler(Exception ex, HttpServletRequest request) {
         printErr(ex);
