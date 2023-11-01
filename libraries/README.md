@@ -6,7 +6,7 @@
 ## 模块划分
 
 ```java
-+---hnit-assembly      // 网关服务 [8080]
++--- hnit-assembly      // 网关服务 [8080]
 +--- hnit-entity        // 公共实体，异常类
 +--- hnit-Interceptor   // 拦截器
 +--- hnit-starter       // 自动装箱类，存放自定义插件配置

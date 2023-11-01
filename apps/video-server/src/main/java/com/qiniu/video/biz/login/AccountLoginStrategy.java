@@ -29,7 +29,7 @@ public class AccountLoginStrategy implements LoginHandle {
     public LoginVO login(Map<String, Object> params) {
         // 放具体的登录策略
         if (log.isDebugEnabled()) {
-            log.debug("用户通过账号密登录");
+            log.debug("用户通过账号密码登录");
         }
 //        AccountVO accountVO;
 //        try {
