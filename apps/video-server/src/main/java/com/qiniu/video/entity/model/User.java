@@ -1,4 +1,4 @@
-package com.qiniu.video.entity;
+package com.qiniu.video.entity.model;
 
 import cn.hnit.sdk.orm.mongodb.entity.BaseEntity;
 import lombok.*;
@@ -28,8 +28,20 @@ public class User extends BaseEntity implements Serializable {
     private static final long serialVersionUID = -46288008014124748L;
     public static final String COLLECTION_NAME = "user";
 
+    /**
+     * 用户名
+     */
     private String userName;
+    /**
+     * 密码
+     */
     private String password;
+    /**
+     * 头像
+     */
     private String avatar;
+    /**
+     * 手机号
+     */
     private String phoneNumber;
 }

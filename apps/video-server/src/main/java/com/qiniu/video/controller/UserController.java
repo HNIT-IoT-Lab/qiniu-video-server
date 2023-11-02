@@ -4,7 +4,7 @@ import cn.hnit.entity.LoginVO;
 import cn.hnit.starter.annotation.AuthIgnore;
 import cn.hnit.utils.BeanUtil;
 import cn.hnit.utils.context.UserContext;
-import com.qiniu.video.entity.User;
+import com.qiniu.video.entity.model.User;
 import com.qiniu.video.entity.vo.PhoneVO;
 import com.qiniu.video.entity.vo.UserVO;
 import com.qiniu.video.service.UserService;
@@ -56,6 +56,10 @@ public class UserController {
         return BeanUtil.copyProperties(userService.Register(user), UserVO.class);
     }
 
+    /**
+     * 用户信息
+     * @return
+     */
     @PostMapping("/userInfo")
     public UserVO UserInfo() {
         return BeanUtil.copyProperties(userService.FindById(UserContext.getUserId()), UserVO.class);

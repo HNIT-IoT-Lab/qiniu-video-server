@@ -1,7 +1,7 @@
 package com.qiniu.video.service;
 
 import cn.hnit.entity.LoginVO;
-import com.qiniu.video.entity.User;
+import com.qiniu.video.entity.model.User;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Map;

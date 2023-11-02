@@ -3,7 +3,7 @@ package com.qiniu.video.gpt.listener;
 import cn.hutool.core.util.StrUtil;
 import com.qiniu.video.gpt.chat.ChatChoice;
 import com.qiniu.video.gpt.chat.ChatCompletionResponse;
-import com.qiniu.video.entity.Message;
+import com.qiniu.video.entity.model.Message;
 import com.alibaba.fastjson.JSON;
 import lombok.Getter;
 import lombok.Setter;

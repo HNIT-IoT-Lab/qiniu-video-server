@@ -3,7 +3,7 @@ package com.qiniu.video.service.common;
 import cn.hnit.common.redis.operator.RedisOperator;
 import cn.hnit.utils.context.UserContext;
 import com.qiniu.video.dao.MessageDao;
-import com.qiniu.video.entity.Message;
+import com.qiniu.video.entity.model.Message;
 import com.qiniu.video.gpt.chat.ChatMessage;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

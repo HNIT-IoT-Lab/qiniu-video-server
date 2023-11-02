@@ -2,7 +2,7 @@ package com.qiniu.video.dao;
 
 import cn.hnit.common.redis.operator.RedisOperator;
 import com.qiniu.video.BaseTest;
-import com.qiniu.video.entity.Message;
+import com.qiniu.video.entity.model.Message;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;

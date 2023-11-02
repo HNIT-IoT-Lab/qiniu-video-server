@@ -4,7 +4,7 @@ import cn.hnit.common.exception.base.AppException;
 import cn.hnit.starter.annotation.ResponseIgnore;
 import cn.hnit.utils.context.UserContext;
 import com.qiniu.video.gpt.ChatGPTStream;
-import com.qiniu.video.entity.Message;
+import com.qiniu.video.entity.model.Message;
 import com.qiniu.video.gpt.listener.SseStreamListener;
 import com.qiniu.video.service.common.MessageCache;
 import com.google.common.collect.Sets;

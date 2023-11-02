@@ -2,7 +2,7 @@ package com.qiniu.video.utils;
 
 
 
-import com.qiniu.video.entity.Message;
+import com.qiniu.video.entity.model.Message;
 
 import java.util.ArrayList;
 import java.util.HashMap;

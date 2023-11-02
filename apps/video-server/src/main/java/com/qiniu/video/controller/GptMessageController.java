@@ -3,7 +3,7 @@ package com.qiniu.video.controller;
 import com.qiniu.video.gpt.ChatGPT;
 import com.qiniu.video.gpt.chat.ChatCompletion;
 import com.qiniu.video.gpt.chat.ChatCompletionResponse;
-import com.qiniu.video.entity.Message;
+import com.qiniu.video.entity.model.Message;
 import com.qiniu.video.gpt.chat.ChatMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -24,7 +24,6 @@ import java.util.Arrays;
 public class GptMessageController {
     @Autowired
     private ChatGPT chatGPT;
-
 
     @PostMapping("/chat")
     @CrossOrigin

@@ -12,7 +12,7 @@ import cn.hutool.crypto.digest.DigestUtil;
 import com.qiniu.video.component.OSSOperator;
 import com.qiniu.video.component.TencentSmsOperator;
 import com.qiniu.video.dao.UserDao;
-import com.qiniu.video.entity.User;
+import com.qiniu.video.entity.model.User;
 import com.qiniu.video.service.FilesService;
 import com.qiniu.video.service.UserService;
 import com.qiniu.video.utils.AESUtil;

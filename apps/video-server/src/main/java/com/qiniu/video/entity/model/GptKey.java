@@ -1,4 +1,4 @@
-package com.qiniu.video.entity;
+package com.qiniu.video.entity.model;
 
 import cn.hnit.sdk.orm.mongodb.entity.BaseEntity;
 import lombok.Builder;

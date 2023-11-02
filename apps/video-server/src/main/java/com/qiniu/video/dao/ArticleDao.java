@@ -2,8 +2,7 @@ package com.qiniu.video.dao;
 
 
 import cn.hnit.sdk.orm.mongodb.dao.BaseDao;
-import com.qiniu.video.entity.Article;
-import com.qiniu.video.entity.UserFile;
+import com.qiniu.video.entity.model.Article;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Repository;

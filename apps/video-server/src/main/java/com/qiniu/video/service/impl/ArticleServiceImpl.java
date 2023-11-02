@@ -3,7 +3,7 @@ package com.qiniu.video.service.impl;
 import cn.hnit.common.exception.base.AppException;
 import cn.hnit.utils.context.UserContext;
 import com.qiniu.video.dao.ArticleDao;
-import com.qiniu.video.entity.Article;
+import com.qiniu.video.entity.model.Article;
 import com.qiniu.video.entity.constant.UserFileConstant;
 import com.qiniu.video.entity.req.ArticleReq;
 import com.qiniu.video.es.entity.EsArticle;
@@ -37,6 +37,7 @@ public class ArticleServiceImpl implements ArticleService {
     public Article AddArticle(MultipartFile file, ArticleReq req) {
         String upload;
         if (file != null) {
+            //上传到kodo，拿到url，存到mongo
             upload = userService.upload(file);
         } else {
             upload = "";

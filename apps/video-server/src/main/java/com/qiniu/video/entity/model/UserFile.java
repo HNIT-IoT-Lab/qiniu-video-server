@@ -1,4 +1,4 @@
-package com.qiniu.video.entity;
+package com.qiniu.video.entity.model;
 
 
 import cn.hnit.sdk.orm.mongodb.entity.BaseEntity;
@@ -22,9 +22,20 @@ public class UserFile extends BaseEntity implements Serializable {
     private static final long serialVersionUID = -46288008014124748L;
     public static final String COLLECTION_NAME = "user_files";
 
+    /**
+     * 用户Id
+     */
     private Long userId;
+    /**
+     * 文件路径
+     */
     private String filePath;
-    // 如果是视频会有封面 url + ?vframe/jpg/offset/1
+    /**
+     * 如果是视频会有封面 url + ?vframe/jpg/offset/1
+     */
     private String Cover;
+    /**
+     * 文件类型
+     */
     private UserFileConstant.UserFileKind fileKind;
 }

@@ -4,7 +4,7 @@ import com.qiniu.video.gpt.ChatGPT;
 import com.qiniu.video.gpt.billing.CreditGrantsResponse;
 import com.qiniu.video.gpt.chat.ChatCompletion;
 import com.qiniu.video.gpt.chat.ChatCompletionResponse;
-import com.qiniu.video.entity.Message;
+import com.qiniu.video.entity.model.Message;
 import com.qiniu.video.gpt.chat.ChatMessage;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Before;

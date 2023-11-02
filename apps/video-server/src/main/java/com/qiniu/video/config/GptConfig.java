@@ -1,7 +1,7 @@
 package com.qiniu.video.config;
 
 import cn.hutool.core.collection.CollUtil;
-import com.qiniu.video.entity.GptKey;
+import com.qiniu.video.entity.model.GptKey;
 import com.qiniu.video.gpt.ChatGPT;
 import com.qiniu.video.gpt.ChatGPTStream;
 import lombok.extern.slf4j.Slf4j;
