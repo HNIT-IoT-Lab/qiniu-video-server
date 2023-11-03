@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.NotBlank;
+import java.util.List;
 
 /**
  * 视频文章类
@@ -54,22 +55,21 @@ public class ArticleController {
     }
 
     /**
-     * 视频播放：获取视频链接
-     * 只需要提供filePath和cover就可
+     * 视频播放：获取视频URL
      */
-
+    @GetMapping("/getVideoUrl")
+    public Article getVideoUrl(){
+        return articleService.getVideoUrl();
+    }
 
     /**
      * 视频截帧功能实现:
      * 视频播放时鼠标放在视频的进度条上，就会将视频的第几秒作为参数传过来，我们生成图片返回即可
+     * @TODO
      */
 
 
-    /**
-     * 热门视频推荐:
-     * 1、协同过滤算法
-     * 2、LRU最近最少使用算法
-     */
+
 
 
 }

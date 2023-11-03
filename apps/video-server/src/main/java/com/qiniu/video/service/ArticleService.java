@@ -6,10 +6,16 @@ import com.qiniu.video.es.entity.EsArticle;
 import org.springframework.data.elasticsearch.core.SearchHits;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
+
 public interface ArticleService {
 
 
     Article AddArticle(MultipartFile file, ArticleReq req);
 
     SearchHits<EsArticle> search(String keyword);
+
+    Article getVideoUrl();
+
+
 }

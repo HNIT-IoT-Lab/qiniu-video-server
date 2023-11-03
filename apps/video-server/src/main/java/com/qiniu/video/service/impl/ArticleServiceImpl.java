@@ -1,6 +1,8 @@
 package com.qiniu.video.service.impl;
 
 import cn.hnit.common.exception.base.AppException;
+import cn.hnit.common.page.Page;
+import cn.hnit.sdk.orm.mongodb.entity.PageVO;
 import cn.hnit.utils.context.UserContext;
 import com.qiniu.video.dao.ArticleDao;
 import com.qiniu.video.entity.model.Article;
@@ -13,10 +15,15 @@ import com.qiniu.video.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.elasticsearch.core.SearchHits;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 import java.util.concurrent.Future;
 import java.util.concurrent.ThreadPoolExecutor;
 
@@ -82,4 +89,39 @@ public class ArticleServiceImpl implements ArticleService {
     public SearchHits<EsArticle> search(String keyword) {
         return esArticleService.searchArticle(keyword);
     }
+
+
+    /**
+     * 每次去查一条数据，根据Id循环去拿取
+     *
+     * @return
+     */
+    @Override
+    public Article getVideoUrl() {
+
+        List<String> ids = new ArrayList<>();
+        Integer currentIndex = 0;
+
+        // 如果所有 ID 都已使用过，重新查询数据库获取新的 ID 列表
+        if (currentIndex >= ids.size()) {
+            ids.clear();
+            currentIndex = 0;
+
+            // 查询数据库并获取 ID 列表
+            // 这里是查询的视频文件，所以要做过滤
+            Iterator<Article> iterator = articleDao.find(Query.query(Criteria.where(Article.Fields.articleKind).is(UserFileConstant.UserFileKind.VIDEO))).iterator();
+            while (iterator.hasNext()) {
+                Article article = iterator.next();
+                ids.add(article.getId().toString());
+            }
+        }
+
+        // 获取当前索引对应的 ID
+        String currentId = ids.get(currentIndex++);
+
+        // 根据 ID 查询并返回文章
+        return articleDao.findOne(Query.query(Criteria.where(Article.ID).is(currentId)));
+    }
+
+
 }
