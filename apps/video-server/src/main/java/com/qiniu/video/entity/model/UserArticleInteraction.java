@@ -33,7 +33,7 @@ public class UserArticleInteraction extends BaseEntity implements Serializable {
     /**
      * 交互类型（如阅读、点赞、收藏等）
      */
-    private InteractionTypeEnum interactionType;
+    private String interactionType;
     /**
      * 交互时间
      */

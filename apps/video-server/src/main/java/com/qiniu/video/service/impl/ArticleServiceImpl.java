@@ -92,6 +92,7 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
 
+    @Override
     public SearchHits<EsArticle> search(String keyword) {
         return esArticleService.searchArticle(keyword);
     }
@@ -269,9 +270,7 @@ public class ArticleServiceImpl implements ArticleService {
     private List<User> getUsersLikedArticle(String articleId) {
         //思路:根据articleId以及interactionType的值为点赞或关注就去拿userId,
         //因为我们认为只要用户点赞、关注中的任一种行为，就认为该用户喜欢
-
         List<UserArticleInteraction> userArticleInteractions = userArticleInteractionDao.find(Query.query(Criteria.where(UserArticleInteraction.Fields.articleId).is(articleId)));
-
         List<String> userIds = userArticleInteractions.stream().map(UserArticleInteraction::getUserId).collect(Collectors.toList());
         List<Long> userIdsLong = userIds.stream()
                 .map(Long::parseLong)
@@ -287,9 +286,12 @@ public class ArticleServiceImpl implements ArticleService {
     private List<Article> getUserLikedArticles(String userId) {
         // 根据用户ID获取用户喜好的文章列表
         // 用户点赞并收藏的文章
-
-
-        return null;
+        List<UserArticleInteraction> userArticleInteractions = userArticleInteractionDao.find(Query.query(Criteria.where(UserArticleInteraction.Fields.userId).is(userId)));
+        List<String> articleIds = userArticleInteractions.stream().map(UserArticleInteraction::getArticleId).collect(Collectors.toList());
+        List<Long> articleIdsLong = articleIds.stream()
+                .map(Long::parseLong)
+                .collect(Collectors.toList());
+        return articleDao.find(Query.query(Criteria.where(Article.ID).in(articleIdsLong)));
     }
     /**
      * LRU缓存的实现,用于存储最近访问过的文章
