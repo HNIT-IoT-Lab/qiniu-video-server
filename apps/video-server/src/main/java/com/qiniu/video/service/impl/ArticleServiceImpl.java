@@ -141,4 +141,17 @@ public class ArticleServiceImpl implements ArticleService {
         return articles;
     }
 
+    /**
+     * 热门视频推荐
+     * 协同过滤算法 + LRU最近最少使用算法
+     * @return
+     */
+    @Override
+    public List<Article> getHotArticle() {
+
+
+
+        return null;
+    }
+
 }

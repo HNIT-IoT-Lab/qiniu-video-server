@@ -19,4 +19,6 @@ public interface ArticleService {
 
     List<Article> getArticleList();
 
+    List<Article> getHotArticle();
+
 }

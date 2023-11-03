@@ -76,6 +76,15 @@ public class ArticleController {
         return articleService.getArticleList();
     }
 
-
+    /**
+     * 热门视频推荐:
+     * 1、协同过滤算法
+     * 2、LRU最近最少使用算法
+     * 做分页
+     */
+    @GetMapping("/getHotArticle")
+    public List<Article> getHotArticle(){
+        return articleService.getHotArticle();
+    }
 
 }
