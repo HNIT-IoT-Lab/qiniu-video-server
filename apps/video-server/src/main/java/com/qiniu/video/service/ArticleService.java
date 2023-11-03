@@ -17,5 +17,6 @@ public interface ArticleService {
 
     Article getVideoUrl();
 
+    List<Article> getArticleList();
 
 }

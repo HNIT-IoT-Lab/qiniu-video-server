@@ -68,7 +68,13 @@ public class ArticleController {
      * @TODO
      */
 
-
+    /**
+     *  获取文章内容：做分页
+     */
+    @GetMapping("/getArticleList")
+    public List<Article> getArticleList() {
+        return articleService.getArticleList();
+    }
 
 
 

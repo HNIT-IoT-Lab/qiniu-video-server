@@ -123,5 +123,22 @@ public class ArticleServiceImpl implements ArticleService {
         return articleDao.findOne(Query.query(Criteria.where(Article.ID).is(currentId)));
     }
 
+    /**
+     * 获取文章数据:分页查询, 每次查10条数据
+     *
+     * @return
+     */
+    @Override
+    public List<Article> getArticleList() {
+        // 定义分页参数
+        PageVO pageVO = new PageVO();
+        // 设置要跳过的文档数量
+        pageVO.setSkip(Long.valueOf((pageVO.getPageNumber()-1) * pageVO.getPageSize()));
+        // 执行分页查询
+        Page<Article> articlePage = articleDao.page(pageVO, null, null, null);
+        // 获取查询结果
+        List<Article> articles = articlePage.getResult();
+        return articles;
+    }
 
 }
