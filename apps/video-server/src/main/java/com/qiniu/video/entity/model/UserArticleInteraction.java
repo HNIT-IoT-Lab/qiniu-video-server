@@ -5,9 +5,11 @@ import com.qiniu.video.entity.enums.InteractionTypeEnum;
 import lombok.*;
 import lombok.experimental.Accessors;
 import lombok.experimental.FieldNameConstants;
+import org.joda.time.LocalDate;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 
 @Data
 @Builder
@@ -33,10 +35,10 @@ public class UserArticleInteraction extends BaseEntity implements Serializable {
     /**
      * 交互类型（如阅读、点赞、收藏等）
      */
-    private String interactionType;
+    private Integer interactionType;
     /**
      * 交互时间
      */
-    private String interactionTime;
+    private LocalDateTime interactionTime;
 
 }

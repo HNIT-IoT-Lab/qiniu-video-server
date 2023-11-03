@@ -33,7 +33,7 @@ public class Article extends BaseEntity implements Serializable {
     /**
      * 关键词
      */
-    private List<String> keyWord;
+    private String keyWord;
     /**
      * 用户id
      */

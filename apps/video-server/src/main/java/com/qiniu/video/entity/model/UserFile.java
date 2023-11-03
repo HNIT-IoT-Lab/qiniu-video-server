@@ -33,7 +33,7 @@ public class UserFile extends BaseEntity implements Serializable {
     /**
      * 如果是视频会有封面 url + ?vframe/jpg/offset/1
      */
-    private String Cover;
+    private String cover;
     /**
      * 文件类型
      */

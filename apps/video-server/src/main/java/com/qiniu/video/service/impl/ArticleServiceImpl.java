@@ -253,12 +253,13 @@ public class ArticleServiceImpl implements ArticleService {
     private boolean isArticleRelated(Article article, String articleId) {
         //根据articleId拿到keyWord
         Article articleDaoOne = articleDao.findOne(Query.query(Criteria.where(Article.ID).is(articleId)));
-        List<String> keyWord = articleDaoOne.getKeyWord();
-        List<String> articleKeyWord = article.getKeyWord();
+        String keyWord = articleDaoOne.getKeyWord();
+        String articleKeyWord = article.getKeyWord();
 
-        boolean isMatch = keyWord.stream()
-                .anyMatch(key -> articleKeyWord.stream()
-                        .anyMatch(articleKey -> key.equals(articleKey)));
+//        boolean isMatch = keyWord.stream()
+//                .anyMatch(key -> articleKeyWord.stream()
+//                        .anyMatch(articleKey -> key.equals(articleKey)));
+        boolean isMatch = keyWord.equals(articleKeyWord);
         return isMatch;
     }
 

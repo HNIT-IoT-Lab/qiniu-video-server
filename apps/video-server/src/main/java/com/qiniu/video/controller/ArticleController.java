@@ -44,7 +44,6 @@ public class ArticleController {
                 .title(title)
                 .build());
     }
-
     /**
      * 搜索文章或视频
      * @param keyword  关键词
@@ -64,9 +63,9 @@ public class ArticleController {
     }
 
     /**
+     * @TODO
      * 视频截帧功能实现:
      * 视频播放时鼠标放在视频的进度条上，就会将视频的第几秒作为参数传过来，我们生成图片返回即可
-     * @TODO
      */
 
     /**
