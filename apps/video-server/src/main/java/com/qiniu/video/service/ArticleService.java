@@ -19,6 +19,6 @@ public interface ArticleService {
 
     List<Article> getArticleList();
 
-    List<Article> getHotArticle();
+    List<Article> getHotArticle(String userId);
 
 }

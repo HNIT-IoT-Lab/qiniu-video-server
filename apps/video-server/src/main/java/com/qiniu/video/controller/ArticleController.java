@@ -5,6 +5,7 @@ import com.qiniu.video.entity.model.Article;
 import com.qiniu.video.entity.req.ArticleReq;
 import com.qiniu.video.es.entity.EsArticle;
 import com.qiniu.video.service.ArticleService;
+import org.codehaus.commons.nullanalysis.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.elasticsearch.core.SearchHits;
 import org.springframework.validation.annotation.Validated;
@@ -83,8 +84,8 @@ public class ArticleController {
      * 做分页
      */
     @GetMapping("/getHotArticle")
-    public List<Article> getHotArticle(){
-        return articleService.getHotArticle();
+    public List<Article> getHotArticle(@RequestParam @NotNull String userId){
+        return articleService.getHotArticle(userId);
     }
 
 }

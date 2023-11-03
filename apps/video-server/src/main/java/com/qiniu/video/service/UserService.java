@@ -4,6 +4,7 @@ import cn.hnit.entity.LoginVO;
 import com.qiniu.video.entity.model.User;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -31,4 +32,6 @@ public interface UserService {
     User updateAvatar(MultipartFile file);
     String upload(MultipartFile file);
     User updateUserName(String userName);
+
+    List<User> FindByIds(List<Long> userId);
 }

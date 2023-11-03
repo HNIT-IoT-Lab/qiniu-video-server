@@ -28,6 +28,7 @@ import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ThreadPoolExecutor;
 
@@ -168,5 +169,10 @@ public class UserServiceImpl implements UserService {
                 Update.update(User.Fields.userName, userName),
                 Criteria.where(BaseEntity.Fields.id).is(UserContext.getUserId()));
         return FindById(UserContext.getUserId());
+    }
+
+    @Override
+    public List<User> FindByIds(List<Long> userId) {
+        return userDao.find(Query.query(Criteria.where(BaseEntity.Fields.id).in(userId)));
     }
 }
