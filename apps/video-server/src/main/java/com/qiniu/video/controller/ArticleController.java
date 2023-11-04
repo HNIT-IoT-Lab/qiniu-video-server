@@ -90,7 +90,15 @@ public class ArticleController {
     }
 
     /**
-     *
+     * 点赞、收藏
+     * 将当前视频id传过来就行，以及类型
      */
+    @PostMapping("/starOrCollectArticle")
+    public void starOrCollectArticle(@RequestParam @NotNull String articleId , String type){
+         articleService.starArticle(articleId,type);
+    }
+
+
+
 
 }

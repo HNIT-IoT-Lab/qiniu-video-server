@@ -22,4 +22,6 @@ public interface ArticleService {
 
     List<Article> getHotArticle();
 
+    void starArticle(String articleId,String type);
+
 }

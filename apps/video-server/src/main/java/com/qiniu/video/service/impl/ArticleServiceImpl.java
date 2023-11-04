@@ -6,6 +6,7 @@ import cn.hnit.sdk.orm.mongodb.entity.PageVO;
 import cn.hnit.utils.context.UserContext;
 import com.qiniu.video.dao.ArticleDao;
 import com.qiniu.video.dao.UserArticleInteractionDao;
+import com.qiniu.video.entity.constant.UserArticleInteractionConstant;
 import com.qiniu.video.entity.enums.InteractionTypeEnum;
 import com.qiniu.video.entity.model.Article;
 import com.qiniu.video.entity.constant.UserFileConstant;
@@ -169,6 +170,36 @@ public class ArticleServiceImpl implements ArticleService {
 
         return articleDao.queryList(Query.query(Criteria.where(Article.ID).in(recommendedArticleIds)));
     }
+
+    /**
+     * 点赞
+     * 用户文章交互类中增加一条记录
+     * @param articleId
+     */
+    @Override
+    public void starArticle(String articleId,String type) {
+        //拿到当前用户
+        Long userId = UserContext.getUserId();
+        //判断是点赞还是收藏
+        if(type.equals("star")){
+            userArticleInteractionDao.save(UserArticleInteraction.builder()
+                    .articleId(articleId)
+                    .userId(String.valueOf(userId))
+                    .interactionType(UserArticleInteractionConstant.InteractionType.LIKE)
+                    .build()
+            );
+        }else{
+            userArticleInteractionDao.save(UserArticleInteraction.builder()
+                    .articleId(articleId)
+                    .userId(String.valueOf(userId))
+                    .interactionType(UserArticleInteractionConstant.InteractionType.COLLECTION)
+                    .build()
+            );
+        }
+    }
+
+
+
 
     /**
      * LRUCache的缓存机制
