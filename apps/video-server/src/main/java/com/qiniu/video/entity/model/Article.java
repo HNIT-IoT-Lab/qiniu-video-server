@@ -31,9 +31,9 @@ public class Article extends BaseEntity implements Serializable {
      */
     private String author;
     /**
-     * 关键词
+     * 关键词可能有多个
      */
-    private String keyWord;
+    private List<String> keyWord;
     /**
      * 用户id
      */

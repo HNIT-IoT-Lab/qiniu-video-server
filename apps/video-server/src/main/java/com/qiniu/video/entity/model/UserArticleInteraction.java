@@ -1,6 +1,7 @@
 package com.qiniu.video.entity.model;
 
 import cn.hnit.sdk.orm.mongodb.entity.BaseEntity;
+import com.qiniu.video.entity.constant.UserArticleInteractionConstant;
 import com.qiniu.video.entity.enums.InteractionTypeEnum;
 import lombok.*;
 import lombok.experimental.Accessors;
@@ -18,11 +19,11 @@ import java.time.LocalDateTime;
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 @AllArgsConstructor
-@Document(collection = User.COLLECTION_NAME)
+@Document(collection = UserArticleInteraction.COLLECTION_NAME)
 public class UserArticleInteraction extends BaseEntity implements Serializable {
 
     private static final long serialVersionUID = -46288008014124748L;
-    public static final String COLLECTION_NAME = "userArticleInteraction";
+    public static final String COLLECTION_NAME = "user_article_interaction";
 
     /**
      * 用户Id
@@ -35,10 +36,6 @@ public class UserArticleInteraction extends BaseEntity implements Serializable {
     /**
      * 交互类型（如阅读、点赞、收藏等）
      */
-    private Integer interactionType;
-    /**
-     * 交互时间
-     */
-    private LocalDateTime interactionTime;
+    private UserArticleInteractionConstant.InteractionType interactionType;
 
 }

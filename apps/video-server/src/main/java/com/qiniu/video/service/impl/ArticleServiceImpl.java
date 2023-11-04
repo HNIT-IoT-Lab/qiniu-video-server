@@ -29,6 +29,7 @@ import java.time.LocalDateTime;
 import java.util.*;
 import java.util.concurrent.Future;
 import java.util.concurrent.ThreadPoolExecutor;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -91,7 +92,6 @@ public class ArticleServiceImpl implements ArticleService {
         return kind == null ? UserFileConstant.UserFileKind.DOCUMENT : kind;
     }
 
-
     @Override
     public SearchHits<EsArticle> search(String keyword) {
         return esArticleService.searchArticle(keyword);
@@ -100,7 +100,6 @@ public class ArticleServiceImpl implements ArticleService {
 
     /**
      * 每次去查一条数据，根据Id循环去拿取
-     *
      * @return
      */
     @Override
@@ -122,10 +121,8 @@ public class ArticleServiceImpl implements ArticleService {
                 ids.add(article.getId().toString());
             }
         }
-
         // 获取当前索引对应的 ID
         String currentId = ids.get(currentIndex++);
-
         // 根据 ID 查询并返回文章
         return articleDao.findOne(Query.query(Criteria.where(Article.ID).is(currentId)));
     }
@@ -136,13 +133,18 @@ public class ArticleServiceImpl implements ArticleService {
      * @return
      */
     @Override
-    public List<Article> getArticleList() {
+    public List<Article> getArticleList(PageVO pageVo) {
         // 定义分页参数
-        PageVO pageVO = new PageVO();
-        // 设置要跳过的文档数量
-        pageVO.setSkip(Long.valueOf((pageVO.getPageNumber()-1) * pageVO.getPageSize()));
+        pageVo.setSkip(Long.valueOf((pageVo.getCurrentPage()-1) * pageVo.getPageSize()));
+//        // 定义一个convert函数：将T类型的对象转换为R类型的对象
+//        Function<T, R> convert = t -> {
+//            // 进行具体的转换操作
+//
+//
+//            return r;
+//        };
         // 执行分页查询
-        Page<Article> articlePage = articleDao.page(pageVO, null, null, null);
+        Page<Article> articlePage = articleDao.page(pageVo, null ,null);
         // 获取查询结果
         List<Article> articles = articlePage.getResult();
         return articles;
@@ -151,20 +153,42 @@ public class ArticleServiceImpl implements ArticleService {
     /**
      * 热门视频推荐
      * 协同过滤算法 + LRU最近最少使用算法
-     * @param userId   这个userId要是前端不传就自己获取
      * @return
      */
     @Override
-    public List<Article> getHotArticle(String userId) {
+    public List<Article> getHotArticle() {
+        //获取的当前用户
+        Long userId = UserContext.getUserId();
         //给当前用户推荐视频
         //根据用户Id推荐
         List<UserArticleInteraction> userArticleInteractions = userArticleInteractionDao.find(Query.query(Criteria.where(UserArticleInteraction.Fields.userId).is(userId)));
         List<String> articleIds = userArticleInteractions.stream().map(UserArticleInteraction::getArticleId).collect(Collectors.toList());
 
         // 根据用户的历史交互(阅读、点赞、收藏)，推荐相似的文章
-        List<String> recommendedArticleIds = recommendSimilarArticles(articleIds);
+        List<String> recommendedArticleIds = getRecommendedArticles(articleIds);
 
         return articleDao.queryList(Query.query(Criteria.where(Article.ID).in(recommendedArticleIds)));
+    }
+
+    /**
+     * LRUCache的缓存机制
+     * @param articleIds
+     * @return
+     */
+    public List<String> getRecommendedArticles(List<String> articleIds) {
+        LRUCache<List<String>, List<String>> cache = new LRUCache<>(10);
+        // 查找缓存中是否存在指定的文章ID列表
+        if (cache.containsKey(articleIds)) {
+            return cache.get(articleIds);
+        }
+
+        // 如果缓存中不存在，则进行推荐算法的计算
+        List<String> recommendedArticleIds = recommendSimilarArticles(articleIds);
+
+        // 将计算结果存储到LRUCache中
+        cache.put(articleIds, recommendedArticleIds);
+
+        return recommendedArticleIds;
     }
 
     /**
@@ -253,13 +277,13 @@ public class ArticleServiceImpl implements ArticleService {
     private boolean isArticleRelated(Article article, String articleId) {
         //根据articleId拿到keyWord
         Article articleDaoOne = articleDao.findOne(Query.query(Criteria.where(Article.ID).is(articleId)));
-        String keyWord = articleDaoOne.getKeyWord();
-        String articleKeyWord = article.getKeyWord();
+        List<String> keyWord = articleDaoOne.getKeyWord();
+        List<String> articleKeyWord = article.getKeyWord();
 
-//        boolean isMatch = keyWord.stream()
-//                .anyMatch(key -> articleKeyWord.stream()
-//                        .anyMatch(articleKey -> key.equals(articleKey)));
-        boolean isMatch = keyWord.equals(articleKeyWord);
+        boolean isMatch = keyWord.stream()
+                .anyMatch(key -> articleKeyWord.stream()
+                        .anyMatch(articleKey -> key.equals(articleKey)));
+        //boolean isMatch = keyWord.equals(articleKeyWord);
         return isMatch;
     }
 

@@ -1,6 +1,7 @@
 package com.qiniu.video.controller;
 
 
+import cn.hnit.sdk.orm.mongodb.entity.PageVO;
 import com.qiniu.video.entity.model.Article;
 import com.qiniu.video.entity.req.ArticleReq;
 import com.qiniu.video.es.entity.EsArticle;
@@ -70,10 +71,11 @@ public class ArticleController {
 
     /**
      *  获取文章内容：做分页
+     *  只需要传当前页和每页大小就可
      */
     @GetMapping("/getArticleList")
-    public List<Article> getArticleList() {
-        return articleService.getArticleList();
+    public List<Article> getArticleList(@RequestBody PageVO pageVo) {
+        return articleService.getArticleList(pageVo);
     }
 
     /**
@@ -83,8 +85,12 @@ public class ArticleController {
      * 做分页
      */
     @GetMapping("/getHotArticle")
-    public List<Article> getHotArticle(@RequestParam @NotNull String userId){
-        return articleService.getHotArticle(userId);
+    public List<Article> getHotArticle(){
+        return articleService.getHotArticle();
     }
+
+    /**
+     *
+     */
 
 }

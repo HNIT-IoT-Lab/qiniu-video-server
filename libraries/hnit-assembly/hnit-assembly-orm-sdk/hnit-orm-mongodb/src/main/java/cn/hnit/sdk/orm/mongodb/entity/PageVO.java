@@ -18,7 +18,7 @@ public class PageVO extends SortOrder implements Serializable {
      * 第几页
      */
     @Transient
-    protected Integer pageNumber = 1;
+    protected Integer currentPage = 1;
 
     @Transient
     protected Integer lostId = 1;
