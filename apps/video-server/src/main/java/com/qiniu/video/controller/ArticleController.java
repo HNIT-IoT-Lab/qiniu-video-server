@@ -98,7 +98,16 @@ public class ArticleController {
          articleService.starArticle(articleId,type);
     }
 
+    /**
+     * 获取收藏视频列表
+     */
+    @PostMapping("/getCollectArticle")
+    public List<Article> getCollectArticle(){
+        return articleService.getCollectArticle();
+    }
 
-
+    /**
+     *
+     */
 
 }

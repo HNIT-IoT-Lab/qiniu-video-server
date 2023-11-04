@@ -198,7 +198,19 @@ public class ArticleServiceImpl implements ArticleService {
         }
     }
 
-
+    /**
+     * 获取收藏视频列表
+     * @return
+     */
+    @Override
+    public List<Article> getCollectArticle() {
+        //先拿到收藏视频的id
+        List<UserArticleInteraction> userArticleInteractions = userArticleInteractionDao.find(Query.query(Criteria.where(UserArticleInteraction.Fields.interactionType)
+                                                                                            .is(UserArticleInteractionConstant.InteractionType.COLLECTION)));
+        List<String> articleIds = userArticleInteractions.stream().map(UserArticleInteraction::getArticleId).collect(Collectors.toList());
+        List<Long> id = articleIds.stream().map(Long::parseLong).collect(Collectors.toList());
+        return articleDao.listByIds(id);
+    }
 
 
     /**

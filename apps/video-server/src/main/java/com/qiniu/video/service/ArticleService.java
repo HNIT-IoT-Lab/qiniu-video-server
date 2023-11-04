@@ -24,4 +24,5 @@ public interface ArticleService {
 
     void starArticle(String articleId,String type);
 
+    List<Article> getCollectArticle();
 }
