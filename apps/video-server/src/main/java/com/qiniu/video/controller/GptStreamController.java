@@ -36,8 +36,6 @@ public class GptStreamController {
     @Autowired
     private MessageCache messageCache;
 
-
-
     @GetMapping(value = "/chat/ssechat", produces = {MediaType.TEXT_EVENT_STREAM_VALUE})
     @ResponseIgnore
     public SseEmitter sseEmitter(String prompt) {

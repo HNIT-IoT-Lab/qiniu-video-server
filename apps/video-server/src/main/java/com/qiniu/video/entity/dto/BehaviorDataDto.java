@@ -7,7 +7,6 @@ import lombok.Data;
  */
 @Data
 public class BehaviorDataDto {
-
     //关注
     private Integer attention;
     //粉丝
