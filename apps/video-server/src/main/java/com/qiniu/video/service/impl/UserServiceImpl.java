@@ -33,6 +33,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ThreadPoolExecutor;
+import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -190,5 +191,15 @@ public class UserServiceImpl implements UserService {
                 .userId(String.valueOf(userId))
                 .followUserId(followUserId)
                 .build());
+    }
+
+    @Override
+    public List<User> getFollowUserList() {
+        Long userId = UserContext.getUserId();
+        List<Follow> followList = followDao.find(Query.query(Criteria.where(Follow.Fields.userId).is(userId)));
+        //过滤
+        List<String> followUserId = followList.stream().map(Follow::getFollowUserId).collect(Collectors.toList());
+        //去用户表拿数据返回即可
+        return userDao.find(Query.query(Criteria.where(User.ID).in(followUserId)));
     }
 }

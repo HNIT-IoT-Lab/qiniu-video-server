@@ -36,4 +36,6 @@ public interface UserService {
     List<User> FindByIds(List<Long> userId);
 
     void followUser(String followUserId);
+
+    List<User>  getFollowUserList();
 }

@@ -14,6 +14,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -92,5 +93,13 @@ public class UserController {
     @PostMapping("/followUser")
     public void followUser(@RequestParam("followUserId") @NotNull String followUserId){
         userService.followUser(followUserId);
+    }
+
+    /**
+     * 获取关注用户列表
+     */
+    @GetMapping("/getFollowUserList")
+    public List<User> getFollowUserList(){
+        return  userService.getFollowUserList();
     }
 }
