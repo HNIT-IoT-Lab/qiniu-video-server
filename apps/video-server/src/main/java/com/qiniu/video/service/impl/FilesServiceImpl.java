@@ -2,7 +2,7 @@ package com.qiniu.video.service.impl;
 
 import cn.hnit.utils.context.UserContext;
 import com.qiniu.video.dao.UserFilesDao;
-import com.qiniu.video.entity.UserFile;
+import com.qiniu.video.entity.model.UserFile;
 import com.qiniu.video.entity.constant.UserFileConstant;
 import com.qiniu.video.service.FilesService;
 import lombok.extern.slf4j.Slf4j;
@@ -25,7 +25,7 @@ public class FilesServiceImpl implements FilesService {
         userFilesDao.upsert(UserFile.builder()
                 .userId(UserContext.getUserId())
                 .fileKind(userFileKind)
-                .Cover(GenCover(filePath, userFileKind))
+                .cover(GenCover(filePath, userFileKind))
                 .filePath(filePath)
                 .build());
     }

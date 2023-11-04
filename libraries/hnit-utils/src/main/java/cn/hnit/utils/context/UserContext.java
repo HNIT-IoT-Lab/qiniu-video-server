@@ -27,7 +27,6 @@ public class UserContext {
         return LocalThreadUtil.getUid();
     }
 
-
     /**
      * 必须要userId
      */
@@ -38,7 +37,6 @@ public class UserContext {
         }
         return userId;
     }
-
 
     /**
      * 得到精简用户信息

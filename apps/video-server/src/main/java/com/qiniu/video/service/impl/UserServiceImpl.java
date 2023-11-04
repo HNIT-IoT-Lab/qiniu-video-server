@@ -11,8 +11,10 @@ import cn.hutool.core.util.RandomUtil;
 import cn.hutool.crypto.digest.DigestUtil;
 import com.qiniu.video.component.OSSOperator;
 import com.qiniu.video.component.TencentSmsOperator;
+import com.qiniu.video.dao.FollowDao;
 import com.qiniu.video.dao.UserDao;
-import com.qiniu.video.entity.User;
+import com.qiniu.video.entity.model.Follow;
+import com.qiniu.video.entity.model.User;
 import com.qiniu.video.service.FilesService;
 import com.qiniu.video.service.UserService;
 import com.qiniu.video.utils.AESUtil;
@@ -28,8 +30,10 @@ import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ThreadPoolExecutor;
+import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -52,6 +56,10 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserDao userDao;
+
+    @Autowired
+    private FollowDao followDao;
+
     @Autowired
     private RedisOperator redisOperator;
     @Autowired
@@ -168,5 +176,30 @@ public class UserServiceImpl implements UserService {
                 Update.update(User.Fields.userName, userName),
                 Criteria.where(BaseEntity.Fields.id).is(UserContext.getUserId()));
         return FindById(UserContext.getUserId());
+    }
+
+    @Override
+    public List<User> FindByIds(List<Long> userId) {
+        return userDao.find(Query.query(Criteria.where(BaseEntity.Fields.id).in(userId)));
+    }
+
+    @Override
+    public void followUser(String followUserId) {
+        //拿到当前用户
+        Long userId = UserContext.getUserId();
+        followDao.save(Follow.builder()
+                .userId(String.valueOf(userId))
+                .followUserId(followUserId)
+                .build());
+    }
+
+    @Override
+    public List<User> getFollowUserList() {
+        Long userId = UserContext.getUserId();
+        List<Follow> followList = followDao.find(Query.query(Criteria.where(Follow.Fields.userId).is(userId)));
+        //过滤
+        List<String> followUserId = followList.stream().map(Follow::getFollowUserId).collect(Collectors.toList());
+        //去用户表拿数据返回即可
+        return userDao.find(Query.query(Criteria.where(User.ID).in(followUserId)));
     }
 }

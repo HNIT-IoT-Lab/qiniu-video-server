@@ -1,6 +1,6 @@
 package com.qiniu.video.gpt.chat;
 
-import com.qiniu.video.entity.Message;
+import com.qiniu.video.entity.model.Message;
 import lombok.Data;
 
 /**

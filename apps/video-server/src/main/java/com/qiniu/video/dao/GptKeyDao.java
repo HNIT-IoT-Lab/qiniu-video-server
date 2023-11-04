@@ -1,7 +1,7 @@
 package com.qiniu.video.dao;
 
 import cn.hnit.sdk.orm.mongodb.dao.BaseDao;
-import com.qiniu.video.entity.GptKey;
+import com.qiniu.video.entity.model.GptKey;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Repository;

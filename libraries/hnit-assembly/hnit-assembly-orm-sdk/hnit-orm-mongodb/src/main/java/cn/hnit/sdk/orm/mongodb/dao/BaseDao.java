@@ -764,9 +764,9 @@ public abstract class BaseDao<T extends BaseEntity> {
             throw OrmException.pop("请设置分页参数");
         }
         // 分页参数
-        long skip = (page.getPageNumber() - 1L) * page.getPageSize();
+        long skip = (page.getCurrentPage() - 1L) * page.getPageSize();
         int limit = page.getPageSize();
-        return page(skip, limit, convert, filter, orders).setPageNo(page.getPageNumber()).setPageSize(page.getPageSize());
+        return page(skip, limit, convert, filter, orders).setPageNo(page.getCurrentPage()).setPageSize(page.getPageSize());
     }
 
     public <R> Page<R> page(PageVO page, Function<T, R> convert, Consumer<Criteria> filter) {
@@ -775,7 +775,7 @@ public abstract class BaseDao<T extends BaseEntity> {
             throw OrmException.pop("请设置分页参数");
         }
         // 分页参数
-        long skip = (page.getPageNumber() - 1L) * page.getPageSize();
+        long skip = (page.getCurrentPage() - 1L) * page.getPageSize();
         int limit = page.getPageSize();
         String order = page.getOrder();
         if (ObjectUtil.isNotEmpty(order)) {
@@ -799,9 +799,9 @@ public abstract class BaseDao<T extends BaseEntity> {
      * @return 分页后的返回数据
      */
     public <R> Page<R> page(long skip, int limit, Function<T, R> convert, Consumer<Criteria> filter, Sort.Order... orders) {
-        if (convert == null) {
-            throw OrmException.pop("请设置转化函数");
-        }
+//        if (convert == null) {
+//            throw OrmException.pop("请设置转化函数");
+//        }
         // 结果集
         Page<R> result = new Page<>();
         // 过滤条件

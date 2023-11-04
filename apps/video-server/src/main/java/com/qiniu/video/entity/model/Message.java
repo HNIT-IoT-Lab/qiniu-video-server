@@ -1,4 +1,4 @@
-package com.qiniu.video.entity;
+package com.qiniu.video.entity.model;
 
 import cn.hnit.sdk.orm.mongodb.entity.BaseEntity;
 import lombok.*;
@@ -20,7 +20,6 @@ import java.time.LocalDateTime;
 public class Message  extends BaseEntity {
     private static final long serialVersionUID = -4628323123122124748L;
     public static final String COLLECTION_NAME = "history_message";
-
 
     /**
      * 目前支持三种角色参考官网，进行情景输入：<a href="https://platform.openai.com/docs/guides/chat/introduction">...</a>

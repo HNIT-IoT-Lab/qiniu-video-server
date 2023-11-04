@@ -1,7 +1,7 @@
 package com.qiniu.video.dao;
 
 import com.qiniu.video.BaseTest;
-import com.qiniu.video.entity.GptKey;
+import com.qiniu.video.entity.model.GptKey;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
