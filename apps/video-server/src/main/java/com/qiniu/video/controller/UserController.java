@@ -95,7 +95,7 @@ public class UserController {
         userService.followUser(followUserId);
     }
 
-    /**
+    /**+
      * 获取关注用户列表
      */
     @GetMapping("/getFollowUserList")

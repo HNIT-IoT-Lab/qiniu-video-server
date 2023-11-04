@@ -105,29 +105,32 @@ public class ArticleServiceImpl implements ArticleService {
      */
     @Override
     public Article getVideoUrl() {
-
         List<String> ids = new ArrayList<>();
         Integer currentIndex = 0;
-
         // 如果所有 ID 都已使用过，重新查询数据库获取新的 ID 列表
-        if (currentIndex >= ids.size()) {
+        if (ids.isEmpty() || currentIndex >= ids.size()) {
+            // 查询数据库并获取 ID 列表
             ids.clear();
             currentIndex = 0;
-
-            // 查询数据库并获取 ID 列表
-            // 这里是查询的视频文件，所以要做过滤
             Iterator<Article> iterator = articleDao.find(Query.query(Criteria.where(Article.Fields.articleKind).is(UserFileConstant.UserFileKind.VIDEO))).iterator();
             while (iterator.hasNext()) {
                 Article article = iterator.next();
                 ids.add(article.getId().toString());
             }
         }
-        // 获取当前索引对应的 ID
-        String currentId = ids.get(currentIndex++);
+        String currentId = null;
+        // 如果数据库中没有数据，则返回null
+        if (!ids.isEmpty()) {
+            // 获取当前索引对应的 ID
+            currentId = ids.get(currentIndex++);
+        }
         // 根据 ID 查询并返回文章
-        return articleDao.findOne(Query.query(Criteria.where(Article.ID).is(currentId)));
+        if (currentId != null) {
+            return articleDao.findOne(Query.query(Criteria.where(Article.ID).is(currentId)));
+        } else {
+            return null;
+        }
     }
-
     /**
      * 获取文章数据:分页查询, 每次查10条数据
      *
