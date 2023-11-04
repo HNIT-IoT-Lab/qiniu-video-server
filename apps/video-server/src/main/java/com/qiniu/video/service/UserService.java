@@ -34,4 +34,6 @@ public interface UserService {
     User updateUserName(String userName);
 
     List<User> FindByIds(List<Long> userId);
+
+    void followUser(String followUserId);
 }

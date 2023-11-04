@@ -8,6 +8,7 @@ import com.qiniu.video.entity.model.User;
 import com.qiniu.video.entity.vo.PhoneVO;
 import com.qiniu.video.entity.vo.UserVO;
 import com.qiniu.video.service.UserService;
+import org.codehaus.commons.nullanalysis.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -82,5 +83,14 @@ public class UserController {
     @PostMapping("/updateUserName")
     public UserVO UpdateUserName(@RequestBody User user) {
         return BeanUtil.copyProperties(userService.updateUserName(user.getUserName()), UserVO.class);
+    }
+
+    /**
+     * 关注用户
+     * 需要将被关注的用户id传过来
+     */
+    @PostMapping("/followUser")
+    public void followUser(@RequestParam("followUserId") @NotNull String followUserId){
+        userService.followUser(followUserId);
     }
 }

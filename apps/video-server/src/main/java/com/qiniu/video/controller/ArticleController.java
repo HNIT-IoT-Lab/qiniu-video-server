@@ -56,7 +56,7 @@ public class ArticleController {
     }
 
     /**
-     * 视频播放：获取视频URL
+     * 视频切换：获取视频URL
      */
     @GetMapping("/getVideoUrl")
     public Article getVideoUrl(){
@@ -107,7 +107,8 @@ public class ArticleController {
     }
 
     /**
-     *
+     * 获取视频分类列表：比如体育频道
+     * 根据关键词去过滤，前端只需要传过来一个tag标签，然后去做模糊查询即可
      */
 
 }

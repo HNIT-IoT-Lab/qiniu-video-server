@@ -11,7 +11,9 @@ import cn.hutool.core.util.RandomUtil;
 import cn.hutool.crypto.digest.DigestUtil;
 import com.qiniu.video.component.OSSOperator;
 import com.qiniu.video.component.TencentSmsOperator;
+import com.qiniu.video.dao.FollowDao;
 import com.qiniu.video.dao.UserDao;
+import com.qiniu.video.entity.model.Follow;
 import com.qiniu.video.entity.model.User;
 import com.qiniu.video.service.FilesService;
 import com.qiniu.video.service.UserService;
@@ -53,6 +55,10 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserDao userDao;
+
+    @Autowired
+    private FollowDao followDao;
+
     @Autowired
     private RedisOperator redisOperator;
     @Autowired
@@ -174,5 +180,15 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<User> FindByIds(List<Long> userId) {
         return userDao.find(Query.query(Criteria.where(BaseEntity.Fields.id).in(userId)));
+    }
+
+    @Override
+    public void followUser(String followUserId) {
+        //拿到当前用户
+        Long userId = UserContext.getUserId();
+        followDao.save(Follow.builder()
+                .userId(String.valueOf(userId))
+                .followUserId(followUserId)
+                .build());
     }
 }
