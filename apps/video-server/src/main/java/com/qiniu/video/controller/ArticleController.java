@@ -38,7 +38,8 @@ public class ArticleController {
     public Article addArticle(
             @RequestPart("file") MultipartFile file,
             @RequestParam("title") @NotBlank(message = "标题不能为空") String title,
-            @RequestParam("content") @NotBlank(message = "内容不能为空") String content) {
+            @RequestParam("content") @NotBlank(message = "内容不能为空") String content,
+            @RequestParam("keyWord") @NotBlank(message = "关键词不能为空") List<String> keyWord) {
 
         return articleService.AddArticle(file, ArticleReq.builder()
                 .content(content)

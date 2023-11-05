@@ -62,8 +62,10 @@ public class ArticleServiceImpl implements ArticleService {
             return articleDao.save(Article.builder()
                     .uid(UserContext.getUserId())
                     .title(req.getTitle())
+                    .keyWord(req.getKeyKord())
                     .content(req.getContent())
                     .articleKind(GenKind(upload))
+                    .urlList(new ArrayList<>(Arrays.asList(upload)))
                     .build());
         });
         Future<?> f2 = asyncExecutor.submit(() -> {
