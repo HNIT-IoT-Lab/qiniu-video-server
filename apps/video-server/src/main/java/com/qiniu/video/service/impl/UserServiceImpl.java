@@ -184,10 +184,10 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void followUser(String followUserId) {
+    public Follow followUser(String followUserId) {
         //拿到当前用户
         Long userId = UserContext.getUserId();
-        followDao.save(Follow.builder()
+        return followDao.save(Follow.builder()
                 .userId(String.valueOf(userId))
                 .followUserId(followUserId)
                 .build());

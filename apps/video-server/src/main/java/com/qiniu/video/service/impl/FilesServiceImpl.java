@@ -30,10 +30,11 @@ public class FilesServiceImpl implements FilesService {
                 .build());
     }
 
-    private String GenCover(String filePath, UserFileConstant.UserFileKind userFileKind) {
+    public String GenCover(String filePath, UserFileConstant.UserFileKind userFileKind) {
         if (userFileKind == UserFileConstant.UserFileKind.VIDEO) {
             // 用视频第一帧作为封面
-            return filePath + "?vframe/jpg/offset/0";
+            // 第五秒作为封面
+            return filePath + "?vframe/jpg/offset/5";
         }
         return "";
     }

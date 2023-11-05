@@ -16,5 +16,5 @@ public class ArticleReq {
     @NotEmpty(message = "内容不能为空")
     private String content;
     @NotEmpty(message = "关键词不能为空")
-    private List<String> keyKord;
+    private String keyKord;
 }

@@ -2,6 +2,7 @@ package com.qiniu.video.service.impl;
 
 import cn.hnit.common.exception.base.AppException;
 import cn.hnit.common.page.Page;
+import cn.hnit.sdk.orm.mongodb.entity.BaseEntity;
 import cn.hnit.sdk.orm.mongodb.entity.PageVO;
 import cn.hnit.utils.context.UserContext;
 import com.qiniu.video.dao.ArticleDao;
@@ -16,6 +17,7 @@ import com.qiniu.video.entity.req.ArticleReq;
 import com.qiniu.video.es.entity.EsArticle;
 import com.qiniu.video.es.service.EsArticleService;
 import com.qiniu.video.service.ArticleService;
+import com.qiniu.video.service.FilesService;
 import com.qiniu.video.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,6 +49,8 @@ public class ArticleServiceImpl implements ArticleService {
     private EsArticleService esArticleService;
     @Autowired
     private ThreadPoolExecutor asyncExecutor;
+    @Autowired
+    private FilesServiceImpl filesService;
 
     @Override
     public Article AddArticle(MultipartFile file, ArticleReq req) {
@@ -57,6 +61,8 @@ public class ArticleServiceImpl implements ArticleService {
         } else {
             upload = "";
         }
+        //拿到视频封面
+        String cover = filesService.GenCover(upload, UserFileConstant.UserFileKind.VIDEO);
         Future<Article> f1 = asyncExecutor.submit(() -> {
             // 保存到mongo
             return articleDao.save(Article.builder()
@@ -64,6 +70,7 @@ public class ArticleServiceImpl implements ArticleService {
                     .title(req.getTitle())
                     .keyWord(req.getKeyKord())
                     .content(req.getContent())
+                    .cover(cover)
                     .articleKind(GenKind(upload))
                     .urlList(new ArrayList<>(Arrays.asList(upload)))
                     .build());
@@ -107,7 +114,7 @@ public class ArticleServiceImpl implements ArticleService {
      */
     @Override
     public Article getVideoUrl() {
-        List<String> ids = new ArrayList<>();
+        List<Long> ids = new ArrayList<>();
         Integer currentIndex = 0;
         // 如果所有 ID 都已使用过，重新查询数据库获取新的 ID 列表
         if (ids.isEmpty() || currentIndex >= ids.size()) {
@@ -117,10 +124,10 @@ public class ArticleServiceImpl implements ArticleService {
             Iterator<Article> iterator = articleDao.find(Query.query(Criteria.where(Article.Fields.articleKind).is(UserFileConstant.UserFileKind.VIDEO))).iterator();
             while (iterator.hasNext()) {
                 Article article = iterator.next();
-                ids.add(article.getId().toString());
+                ids.add(article.getId());
             }
         }
-        String currentId = null;
+        Long currentId = null;
         // 如果数据库中没有数据，则返回null
         if (!ids.isEmpty()) {
             // 获取当前索引对应的 ID
@@ -128,7 +135,7 @@ public class ArticleServiceImpl implements ArticleService {
         }
         // 根据 ID 查询并返回文章
         if (currentId != null) {
-            return articleDao.findOne(Query.query(Criteria.where(Article.ID).is(currentId)));
+            return articleDao.findOne(Query.query(Criteria.where(BaseEntity.Fields.id).is(currentId)));
         } else {
             return null;
         }
@@ -182,19 +189,19 @@ public class ArticleServiceImpl implements ArticleService {
      * @param articleId
      */
     @Override
-    public void starArticle(String articleId,String type) {
+    public UserArticleInteraction starArticle(String articleId,String type) {
         //拿到当前用户
         Long userId = UserContext.getUserId();
         //判断是点赞还是收藏
         if(type.equals("star")){
-            userArticleInteractionDao.save(UserArticleInteraction.builder()
+            return userArticleInteractionDao.save(UserArticleInteraction.builder()
                     .articleId(articleId)
                     .userId(String.valueOf(userId))
                     .interactionType(UserArticleInteractionConstant.InteractionType.LIKE)
                     .build()
             );
         }else{
-            userArticleInteractionDao.save(UserArticleInteraction.builder()
+            return userArticleInteractionDao.save(UserArticleInteraction.builder()
                     .articleId(articleId)
                     .userId(String.valueOf(userId))
                     .interactionType(UserArticleInteractionConstant.InteractionType.COLLECTION)
@@ -325,13 +332,13 @@ public class ArticleServiceImpl implements ArticleService {
     private boolean isArticleRelated(Article article, String articleId) {
         //根据articleId拿到keyWord
         Article articleDaoOne = articleDao.findOne(Query.query(Criteria.where(Article.ID).is(articleId)));
-        List<String> keyWord = articleDaoOne.getKeyWord();
-        List<String> articleKeyWord = article.getKeyWord();
+        String keyWord = articleDaoOne.getKeyWord();
+        String articleKeyWord = article.getKeyWord();
 
-        boolean isMatch = keyWord.stream()
-                .anyMatch(key -> articleKeyWord.stream()
-                        .anyMatch(articleKey -> key.equals(articleKey)));
-        //boolean isMatch = keyWord.equals(articleKeyWord);
+//        boolean isMatch = keyWord.stream()
+//                .anyMatch(key -> articleKeyWord.stream()
+//                        .anyMatch(articleKey -> key.equals(articleKey)));
+        boolean isMatch = keyWord.equals(articleKeyWord);
         return isMatch;
     }
 

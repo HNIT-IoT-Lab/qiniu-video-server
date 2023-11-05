@@ -1,6 +1,7 @@
 package com.qiniu.video.service;
 
 import cn.hnit.entity.LoginVO;
+import com.qiniu.video.entity.model.Follow;
 import com.qiniu.video.entity.model.User;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -35,7 +36,7 @@ public interface UserService {
 
     List<User> FindByIds(List<Long> userId);
 
-    void followUser(String followUserId);
+    Follow followUser(String followUserId);
 
     List<User>  getFollowUserList();
 }

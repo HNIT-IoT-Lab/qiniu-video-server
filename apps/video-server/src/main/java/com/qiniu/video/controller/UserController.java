@@ -4,6 +4,7 @@ import cn.hnit.entity.LoginVO;
 import cn.hnit.starter.annotation.AuthIgnore;
 import cn.hnit.utils.BeanUtil;
 import cn.hnit.utils.context.UserContext;
+import com.qiniu.video.entity.model.Follow;
 import com.qiniu.video.entity.model.User;
 import com.qiniu.video.entity.vo.PhoneVO;
 import com.qiniu.video.entity.vo.UserVO;
@@ -91,8 +92,8 @@ public class UserController {
      * 需要将被关注的用户id传过来
      */
     @PostMapping("/followUser")
-    public void followUser(@RequestParam("followUserId") @NotNull String followUserId){
-        userService.followUser(followUserId);
+    public Follow followUser(@RequestParam("followUserId") @NotNull String followUserId){
+        return userService.followUser(followUserId);
     }
 
     /**+

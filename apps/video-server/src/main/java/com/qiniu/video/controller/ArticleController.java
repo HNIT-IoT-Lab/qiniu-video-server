@@ -3,6 +3,7 @@ package com.qiniu.video.controller;
 
 import cn.hnit.sdk.orm.mongodb.entity.PageVO;
 import com.qiniu.video.entity.model.Article;
+import com.qiniu.video.entity.model.UserArticleInteraction;
 import com.qiniu.video.entity.req.ArticleReq;
 import com.qiniu.video.es.entity.EsArticle;
 import com.qiniu.video.service.ArticleService;
@@ -39,7 +40,7 @@ public class ArticleController {
             @RequestPart("file") MultipartFile file,
             @RequestParam("title") @NotBlank(message = "标题不能为空") String title,
             @RequestParam("content") @NotBlank(message = "内容不能为空") String content,
-            @RequestParam("keyWord") @NotBlank(message = "关键词不能为空") List<String> keyWord) {
+            @RequestParam("keyWord") @NotBlank(message = "关键词不能为空") String keyWord) {
 
         return articleService.AddArticle(file, ArticleReq.builder()
                 .content(content)
@@ -95,8 +96,8 @@ public class ArticleController {
      * 将当前视频id传过来就行，以及类型
      */
     @PostMapping("/starOrCollectArticle")
-    public void starOrCollectArticle(@RequestParam @NotNull String articleId , String type){
-         articleService.starArticle(articleId,type);
+    public UserArticleInteraction starOrCollectArticle(@RequestParam @NotNull String articleId , String type){
+         return articleService.starArticle(articleId,type);
     }
 
     /**

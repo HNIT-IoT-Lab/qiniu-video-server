@@ -33,7 +33,7 @@ public class Article extends BaseEntity implements Serializable {
     /**
      * 关键词可能有多个
      */
-    private List<String> keyWord;
+    private String keyWord;
     /**
      * 用户id
      */
@@ -46,6 +46,10 @@ public class Article extends BaseEntity implements Serializable {
      * 图片或者视频的url，视频只能有一个 图片可以多张
      */
     private List<String> urlList;
+    /**
+     * 视频封面
+     */
+    private String cover;
     /**
      * 种类
      */

@@ -2,6 +2,7 @@ package com.qiniu.video.service;
 
 import cn.hnit.sdk.orm.mongodb.entity.PageVO;
 import com.qiniu.video.entity.model.Article;
+import com.qiniu.video.entity.model.UserArticleInteraction;
 import com.qiniu.video.entity.req.ArticleReq;
 import com.qiniu.video.es.entity.EsArticle;
 import org.springframework.data.elasticsearch.core.SearchHits;
@@ -22,7 +23,7 @@ public interface ArticleService {
 
     List<Article> getHotArticle();
 
-    void starArticle(String articleId,String type);
+    UserArticleInteraction starArticle(String articleId, String type);
 
     List<Article> getCollectArticle();
 }
