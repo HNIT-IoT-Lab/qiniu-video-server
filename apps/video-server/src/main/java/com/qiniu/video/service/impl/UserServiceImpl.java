@@ -196,10 +196,13 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<User> getFollowUserList() {
         Long userId = UserContext.getUserId();
-        List<Follow> followList = followDao.find(Query.query(Criteria.where(Follow.Fields.userId).is(userId)));
+        List<Follow> followList = followDao.find(Query.query(Criteria.where(Follow.Fields.userId).is(userId.toString())));
         //过滤
         List<String> followUserId = followList.stream().map(Follow::getFollowUserId).collect(Collectors.toList());
+
+        List<Long> longList = followUserId.stream().map(Long::parseLong).collect(Collectors.toList());
+
         //去用户表拿数据返回即可
-        return userDao.find(Query.query(Criteria.where(User.ID).in(followUserId)));
+        return userDao.find(Query.query(Criteria.where(BaseEntity.Fields.id).in(longList)));
     }
 }

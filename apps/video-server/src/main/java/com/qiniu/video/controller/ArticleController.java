@@ -60,9 +60,10 @@ public class ArticleController {
 
     /**
      * 视频切换：获取视频URL
+     * 这里也做分页，每次返回3条数据
      */
     @GetMapping("/getVideoUrl")
-    public Article getVideoUrl(){
+    public List<Article> getVideoUrl(){
         return articleService.getVideoUrl();
     }
 

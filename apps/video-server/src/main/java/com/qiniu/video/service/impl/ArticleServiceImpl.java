@@ -113,32 +113,17 @@ public class ArticleServiceImpl implements ArticleService {
      * @return
      */
     @Override
-    public Article getVideoUrl() {
+    public List<Article> getVideoUrl() {
         List<Long> ids = new ArrayList<>();
-        Integer currentIndex = 0;
-        // 如果所有 ID 都已使用过，重新查询数据库获取新的 ID 列表
-        if (ids.isEmpty() || currentIndex >= ids.size()) {
-            // 查询数据库并获取 ID 列表
-            ids.clear();
-            currentIndex = 0;
-            Iterator<Article> iterator = articleDao.find(Query.query(Criteria.where(Article.Fields.articleKind).is(UserFileConstant.UserFileKind.VIDEO))).iterator();
-            while (iterator.hasNext()) {
-                Article article = iterator.next();
-                ids.add(article.getId());
-            }
+        Iterator<Article> iterator = articleDao.find(Query.query(Criteria.where(Article.Fields.articleKind).is(UserFileConstant.UserFileKind.VIDEO))).iterator();
+        while (iterator.hasNext()) {
+            Article article = iterator.next();
+            ids.add(article.getId());
         }
-        Long currentId = null;
-        // 如果数据库中没有数据，则返回null
-        if (!ids.isEmpty()) {
-            // 获取当前索引对应的 ID
-            currentId = ids.get(currentIndex++);
-        }
-        // 根据 ID 查询并返回文章
-        if (currentId != null) {
-            return articleDao.findOne(Query.query(Criteria.where(BaseEntity.Fields.id).is(currentId)));
-        } else {
-            return null;
-        }
+        Collections.shuffle(ids);
+        List<Long> randomIds = ids.subList(0, 3);
+        List<Article> articles = articleDao.find(Query.query(Criteria.where(BaseEntity.Fields.id).in(randomIds)));
+        return articles;
     }
     /**
      * 获取文章数据:分页查询, 每次查10条数据
@@ -178,7 +163,8 @@ public class ArticleServiceImpl implements ArticleService {
         // 根据用户的历史交互(阅读、点赞、收藏)，推荐相似的文章
         List<String> recommendedArticleIds = getRecommendedArticles(articleIds);
 
-        return articleDao.queryList(Query.query(Criteria.where(Article.ID).in(recommendedArticleIds)));
+        List<Long> longList = recommendedArticleIds.stream().map(Long::parseLong).collect(Collectors.toList());
+        return articleDao.queryList(Query.query(Criteria.where(BaseEntity.Fields.id).in(longList)));
     }
 
     /**
@@ -191,7 +177,7 @@ public class ArticleServiceImpl implements ArticleService {
         //拿到当前用户
         Long userId = UserContext.getUserId();
         //判断是点赞还是收藏
-        if(type.equals("star")){
+        if(type.equals(UserArticleInteractionConstant.InteractionType.LIKE)){
             return userArticleInteractionDao.save(UserArticleInteraction.builder()
                     .articleId(articleId)
                     .userId(String.valueOf(userId))
@@ -329,7 +315,7 @@ public class ArticleServiceImpl implements ArticleService {
      */
     private boolean isArticleRelated(Article article, String articleId) {
         //根据articleId拿到keyWord
-        Article articleDaoOne = articleDao.findOne(Query.query(Criteria.where(Article.ID).is(articleId)));
+        Article articleDaoOne = articleDao.findOne(Query.query(Criteria.where(BaseEntity.Fields.id).is(Long.valueOf(articleId))));
         String keyWord = articleDaoOne.getKeyWord();
         String articleKeyWord = article.getKeyWord();
 
@@ -369,7 +355,7 @@ public class ArticleServiceImpl implements ArticleService {
         List<Long> articleIdsLong = articleIds.stream()
                 .map(Long::parseLong)
                 .collect(Collectors.toList());
-        return articleDao.find(Query.query(Criteria.where(Article.ID).in(articleIdsLong)));
+        return articleDao.find(Query.query(Criteria.where(BaseEntity.Fields.id).in(articleIdsLong)));
     }
     /**
      * LRU缓存的实现,用于存储最近访问过的文章
