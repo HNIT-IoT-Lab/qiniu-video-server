@@ -45,6 +45,7 @@ public class ArticleController {
         return articleService.AddArticle(file, ArticleReq.builder()
                 .content(content)
                 .title(title)
+                .keyWord(keyWord)
                 .build());
     }
     /**

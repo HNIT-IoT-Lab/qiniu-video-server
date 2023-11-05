@@ -68,7 +68,7 @@ public class ArticleServiceImpl implements ArticleService {
             return articleDao.save(Article.builder()
                     .uid(UserContext.getUserId())
                     .title(req.getTitle())
-                    .keyWord(req.getKeyKord())
+                    .keyWord(req.getKeyWord())
                     .content(req.getContent())
                     .cover(cover)
                     .articleKind(GenKind(upload))
@@ -149,15 +149,13 @@ public class ArticleServiceImpl implements ArticleService {
     public List<Article> getArticleList(PageVO pageVo) {
         // 定义分页参数
         pageVo.setSkip(Long.valueOf((pageVo.getCurrentPage()-1) * pageVo.getPageSize()));
-//        // 定义一个convert函数：将T类型的对象转换为R类型的对象
-//        Function<T, R> convert = t -> {
-//            // 进行具体的转换操作
-//
-//
-//            return r;
-//        };
+        // 定义一个convert函数：将T类型的对象转换为R类型的对象
+        Function<Article, Article> convert = t -> {
+            // 进行具体的转换操作
+            return t;
+        };
         // 执行分页查询
-        Page<Article> articlePage = articleDao.page(pageVo, null ,null);
+        Page<Article> articlePage = articleDao.page(pageVo, convert ,null);
         // 获取查询结果
         List<Article> articles = articlePage.getResult();
         return articles;
