@@ -12,6 +12,7 @@ import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 
 @Data
 @Builder
@@ -29,7 +30,7 @@ public class EsArticle {
     @Field(type = FieldType.Text, analyzer = "ik_max_word")
     private String content;
     @Field(type = FieldType.Date, format = DateFormat.basic_date_time)
-    private LocalDateTime createTime;
+    private Date createTime;
     @Field(type = FieldType.Date, format = DateFormat.basic_date_time)
-    private LocalDateTime updateTime;
+    private Date updateTime;
 }

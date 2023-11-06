@@ -19,6 +19,7 @@ import com.qiniu.video.es.service.EsArticleService;
 import com.qiniu.video.service.ArticleService;
 import com.qiniu.video.service.FilesService;
 import com.qiniu.video.service.UserService;
+import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.elasticsearch.core.SearchHits;
@@ -28,7 +29,9 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.*;
 import java.util.concurrent.Future;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -68,6 +71,7 @@ public class ArticleServiceImpl implements ArticleService {
             return articleDao.save(Article.builder()
                     .uid(UserContext.getUserId())
                     .title(req.getTitle())
+                    .author(userService.FindById(UserContext.getUserId()).getUserName())
                     .keyWord(req.getKeyWord())
                     .content(req.getContent())
                     .cover(cover)
@@ -81,7 +85,7 @@ public class ArticleServiceImpl implements ArticleService {
                     .author(userService.FindById(UserContext.getUserId()).getUserName())
                     .title(req.getTitle())
                     .content(req.getContent())
-                    .createTime(LocalDateTime.now())
+                    .createTime(new Date())
                     .build());
         });
 
