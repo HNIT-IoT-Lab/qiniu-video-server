@@ -57,7 +57,8 @@ VidBurst（结合了"vid"和"burst"，意为视频和瞬间的结合），一个
 
 ### 系统架构图
 
-![image-20231106233155328](C:\Users\小曾\Desktop\博客图片\image-20231106233155328.png)
+![image](https://github.com/HNIT-IoT-Lab/qiniu-video-server/assets/101322913/c9c0b650-a30d-4948-955f-e70e5624a36e)
+
 
 ### 后端技术
 
