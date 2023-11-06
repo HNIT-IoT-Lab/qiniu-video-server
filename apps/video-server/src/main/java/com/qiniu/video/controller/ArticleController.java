@@ -14,6 +14,7 @@ import org.springframework.data.elasticsearch.core.SearchHits;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import retrofit2.http.POST;
 
 import javax.validation.constraints.NotBlank;
 import java.util.List;
@@ -73,7 +74,7 @@ public class ArticleController {
      *  获取文章内容：做分页
      *  只需要传当前页和每页大小就可
      */
-    @GetMapping("/getArticleList")
+    @PostMapping("/getArticleList")
     public Page<Article> getArticleList(@RequestBody PageVO pageVo) {
         return articleService.getArticleList(pageVo);
     }
