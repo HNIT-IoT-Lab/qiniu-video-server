@@ -1,6 +1,7 @@
 package com.qiniu.video.controller;
 
 
+import cn.hnit.common.page.Page;
 import cn.hnit.sdk.orm.mongodb.entity.PageVO;
 import com.qiniu.video.entity.model.Article;
 import com.qiniu.video.entity.model.UserArticleInteraction;
@@ -60,25 +61,20 @@ public class ArticleController {
 
     /**
      * 视频切换：获取视频URL
-     * 这里也做分页，每次返回3条数据
+     * 每次返回3条数据
      */
     @GetMapping("/getVideoUrl")
     public List<Article> getVideoUrl(){
         return articleService.getVideoUrl();
     }
 
-    /**
-     * @TODO
-     * 视频截帧功能实现:
-     * 视频播放时鼠标放在视频的进度条上，就会将视频的第几秒作为参数传过来，我们生成图片返回即可
-     */
 
     /**
      *  获取文章内容：做分页
      *  只需要传当前页和每页大小就可
      */
     @GetMapping("/getArticleList")
-    public List<Article> getArticleList(@RequestBody PageVO pageVo) {
+    public Page<Article> getArticleList(@RequestBody PageVO pageVo) {
         return articleService.getArticleList(pageVo);
     }
 
@@ -86,7 +82,6 @@ public class ArticleController {
      * 热门视频推荐:
      * 1、协同过滤算法
      * 2、LRU最近最少使用算法
-     * 做分页
      */
     @GetMapping("/getHotArticle")
     public List<Article> getHotArticle(){

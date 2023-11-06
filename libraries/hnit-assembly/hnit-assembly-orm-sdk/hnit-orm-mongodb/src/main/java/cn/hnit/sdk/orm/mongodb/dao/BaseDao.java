@@ -813,6 +813,8 @@ public abstract class BaseDao<T extends BaseEntity> {
         // 查询总数
         long total = mongoTemplate.count(query, tClass);
         result.setTotal(total);
+        //有多少页
+        result.setPages(total/limit + 1);
         if (total < 1 || total <= skip) {
             return result.setResult(Lists.newArrayList());
         }

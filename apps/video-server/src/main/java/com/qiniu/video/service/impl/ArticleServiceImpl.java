@@ -113,7 +113,7 @@ public class ArticleServiceImpl implements ArticleService {
 
 
     /**
-     * 每次去查一条数据，根据Id循环去拿取
+     * 每次请求去拿到三条数据
      * @return
      */
     @Override
@@ -135,7 +135,7 @@ public class ArticleServiceImpl implements ArticleService {
      * @return
      */
     @Override
-    public List<Article> getArticleList(PageVO pageVo) {
+    public Page<Article> getArticleList(PageVO pageVo) {
         // 定义分页参数
         pageVo.setSkip(Long.valueOf((pageVo.getCurrentPage()-1) * pageVo.getPageSize()));
         // 定义一个convert函数：将T类型的对象转换为R类型的对象
@@ -145,9 +145,11 @@ public class ArticleServiceImpl implements ArticleService {
         };
         // 执行分页查询
         Page<Article> articlePage = articleDao.page(pageVo, convert ,null);
-        // 获取查询结果
-        List<Article> articles = articlePage.getResult();
-        return articles;
+        //当前页
+        articlePage.setPageNo(pageVo.getCurrentPage());
+        //这一页的条数
+        articlePage.setPageSize(pageVo.getPageSize());
+        return articlePage;
     }
 
     /**

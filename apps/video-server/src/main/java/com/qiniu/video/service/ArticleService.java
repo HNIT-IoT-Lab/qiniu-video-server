@@ -1,5 +1,6 @@
 package com.qiniu.video.service;
 
+import cn.hnit.common.page.Page;
 import cn.hnit.sdk.orm.mongodb.entity.PageVO;
 import com.qiniu.video.entity.model.Article;
 import com.qiniu.video.entity.model.UserArticleInteraction;
@@ -19,7 +20,7 @@ public interface ArticleService {
 
     List<Article> getVideoUrl();
 
-    List<Article> getArticleList(PageVO pageVo);
+    Page<Article> getArticleList(PageVO pageVo);
 
     List<Article> getHotArticle();
 
