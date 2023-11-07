@@ -39,6 +39,12 @@ VidBurst（结合了"vid"和"burst"，意为视频和瞬间的结合），一个
 
 [title (hnit-iot-lab.github.io)](https://hnit-iot-lab.github.io/qiniu-video-front/home)
 
+## 视频演示地址：
+http://s39y9jpm6.hd-bkt.clouddn.com/%E6%BC%94%E7%A4%BA%E8%A7%86%E9%A2%91/6%E6%9C%8812%E6%97%A5.mp4
+
+## 七牛云存储地址
+https://portal.qiniu.com/kodo/bucket/resource-v2?bucketName=hnit-wlwsys
+
 ## 项目目录
 
 - apps
