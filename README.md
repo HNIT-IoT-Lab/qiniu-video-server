@@ -39,7 +39,7 @@ VidBurst（结合了"vid"和"burst"，意为视频和瞬间的结合），一个
 
 - apps
 
-  + video-admin：提供后台API接口服务（暂未开发）
+  + video-admin：提供后台API接口服务（后台管理系统）
   + video-server：提供web端API接口服务
 
 - common：
