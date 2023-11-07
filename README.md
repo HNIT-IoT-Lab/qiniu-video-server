@@ -2,7 +2,7 @@
 
 ## 项目介绍
 
-VidBurst（结合了"vid"和"burst"，意为视频和瞬间的结合），一个短视频应用。**Web** 端使用 **Vue** + **ElementUi**，后端使用  **SpringBoot** + **Mybatis-plus**+**Dubbo**+**MongoDB**进行开发，使用 **Sa-Token**做登录验证和权限校验，使用 **ElasticSearch** 作为全文检索服务，使用 **Github Actions**完成VidBurst的持续集成，使用**协同过滤算法结合LRU最近最少使用算法**实现视频推荐，文件支持**七牛云** 存储。
+VidBurst（结合了"vid"和"burst"，意为视频和瞬间的结合），一个短视频应用。**Web** 端使用 **Vue** + **Arco-Design**+**pinia**，后端使用  **SpringBoot** + **Mybatis-plus**+**Dubbo**+**MongoDB**进行开发，使用 **Sa-Token**做登录验证和权限校验，使用 **ElasticSearch** 作为全文检索服务，使用 **Github Actions**完成VidBurst的持续集成，使用**协同过滤算法结合LRU最近最少使用算法**实现视频推荐，文件支持**七牛云** 存储。
 
 ## 运行配置
 
@@ -35,11 +35,15 @@ VidBurst（结合了"vid"和"burst"，意为视频和瞬间的结合），一个
 - 前端：[HNIT-IoT-Lab/qiniu-video-front: 七牛云短视频应用前端程序 (github.com)](https://github.com/HNIT-IoT-Lab/qiniu-video-front)
 - 后端：[HNIT-IoT-Lab/qiniu-video-server: 七牛云短视频应用后端程序 (github.com)](https://github.com/HNIT-IoT-Lab/qiniu-video-server)
 
+## 快速体验
+
+[title (hnit-iot-lab.github.io)](https://hnit-iot-lab.github.io/qiniu-video-front/home)
+
 ## 项目目录
 
 - apps
 
-  + video-admin：提供后台API接口服务（后台管理系统）
+  + video-admin：提供后台API接口服务（后台管理）
   + video-server：提供web端API接口服务
 
 - common：
@@ -119,8 +123,8 @@ VidBurst（结合了"vid"和"burst"，意为视频和瞬间的结合），一个
 团队三个人：
 
 + 曾吉平  主要负责后端框架的搭建、视频以及用户接口的编写、视频推荐算法的编写
-+ 严奕杰   主要负责前端视频播放模块的编写、视频上下键滚动切换
-+ 陈瑜   主要负责前端用户模块的编写、登录，视频点赞收藏等功能
++ 严奕杰   主要负责前端视频播放模块的编写、视频上下键滚动切换以及前端通用模块如router等的封装
++ 陈瑜   主要负责前端用户模块的编写、登录，视频点赞收藏，主页瀑布式布局、api接口调用和Ui架构等
 
 ## 视频推荐算法
 
@@ -157,12 +161,10 @@ VidBurst（结合了"vid"和"burst"，意为视频和瞬间的结合），一个
    - 创建一个`User`类，用于表示用户信息。其中可以包含用户ID、名称等字段。
    - 创建一个`Article`类，用于表示文章信息。其中可以包含文章ID、标题、内容等字段。
    - 创建一个`UserArticleInteraction`类，用于表示用户与文章的交互信息。其中可以包含用户ID、文章ID、交互类型（如点赞、收藏等）和交互时间等字段。
-
 2. 协同过滤算法：
 
    - 使用MongoDB的聚合框架，对用户与文章的交互数据进行分组和计算。可以计算用户之间的相似度。
    - 根据相似度计算出用户之间的相似度矩阵，用于推荐相似用户喜欢的文章。
-
 3. LRU算法：
 
    - 在内存中维护一个固定大小的LRU缓存，用于存储最近访问过的文章。
@@ -170,9 +172,15 @@ VidBurst（结合了"vid"和"burst"，意为视频和瞬间的结合），一个
    - 如果文章不在缓存中，则从数据库中获取文章，并将其添加到缓存中。如果缓存已满，则使用LRU算法删除最近最少使用的文章。
    - 将数据返回给前端
 
-   
 
+## 视频滚动模块
 
+### 实现：
 
+1. 页面布局设计：
 
+   使用3个嵌套的video控件作为基础循环使用，使得页面控件数量可控，降低渲染以及前端压力。
 
+2. 滑动窗口算法设计：
+
+   使用一个变量**n**维护当前用户观看视频，当用户向下滚动后将**n-2**下标的控件更新为下一个视频，当用户上滑时将**n+2**下标的控件更新为上一个控件，以此来实现无线滚动与视频无感刷新。
