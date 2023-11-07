@@ -18,7 +18,7 @@ public interface ArticleService {
 
     SearchHits<EsArticle> search(String keyword);
 
-    List<Article> getVideoUrl();
+    List<Article> getVideoUrl(String tag);
 
     Page<Article> getArticleList(PageVO pageVo);
 

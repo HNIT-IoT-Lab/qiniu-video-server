@@ -19,6 +19,7 @@ import com.qiniu.video.es.service.EsArticleService;
 import com.qiniu.video.service.ArticleService;
 import com.qiniu.video.service.FilesService;
 import com.qiniu.video.service.UserService;
+import javafx.scene.shape.Circle;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +28,7 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.CriteriaDefinition;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
@@ -117,15 +119,21 @@ public class ArticleServiceImpl implements ArticleService {
      * @return
      */
     @Override
-    public List<Article> getVideoUrl() {
+    public List<Article> getVideoUrl(String tag) {
         List<Long> ids = new ArrayList<>();
-        Iterator<Article> iterator = articleDao.find(Query.query(Criteria.where(Article.Fields.articleKind).is(UserFileConstant.UserFileKind.VIDEO))).iterator();
+        //过滤数据根据关键词去过滤
+        Query query = new Query();
+        if(!StringUtils.isEmpty(tag)){
+            query.addCriteria(Criteria.where(Article.Fields.keyWord).is(tag));
+        }
+        query.addCriteria(Criteria.where(Article.Fields.articleKind).is(UserFileConstant.UserFileKind.VIDEO));
+        Iterator<Article> iterator = articleDao.find(query).iterator();
         while (iterator.hasNext()) {
             Article article = iterator.next();
             ids.add(article.getId());
         }
         Collections.shuffle(ids);
-        List<Long> randomIds = ids.subList(0, 3);
+        List<Long> randomIds = ids.subList(0, 5);
         List<Article> articles = articleDao.find(Query.query(Criteria.where(BaseEntity.Fields.id).in(randomIds)));
         return articles;
     }

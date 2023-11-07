@@ -61,14 +61,13 @@ public class ArticleController {
     }
 
     /**
-     * 视频切换：获取视频URL
-     * 每次返回3条数据
+     * 视频切换：获取视频URL,这里加个字段tag,用来获取分类视频
+     * 每次返回5条数据
      */
     @GetMapping("/getVideoUrl")
-    public List<Article> getVideoUrl(){
-        return articleService.getVideoUrl();
+    public List<Article> getVideoUrl(@RequestParam(required = false) String tag){
+        return articleService.getVideoUrl(tag);
     }
-
 
     /**
      *  获取文章内容：做分页
@@ -94,7 +93,7 @@ public class ArticleController {
      * 将当前视频id传过来就行，以及类型
      */
     @PostMapping("/starOrCollectArticle")
-    public UserArticleInteraction starOrCollectArticle(@RequestParam @NotNull String articleId , String type){
+    public UserArticleInteraction starOrCollectArticle(@RequestParam @NotNull String articleId , @RequestParam String type){
          return articleService.starArticle(articleId,type);
     }
 
@@ -105,10 +104,5 @@ public class ArticleController {
     public List<Article> getCollectArticle(){
         return articleService.getCollectArticle();
     }
-
-    /**
-     * 获取视频分类列表：比如体育频道
-     * 根据关键词去过滤，前端只需要传过来一个tag标签，然后去做模糊查询即可
-     */
 
 }
