@@ -24,7 +24,7 @@ public interface ArticleService {
 
     List<Article> getHotArticle();
 
-    UserArticleInteraction starArticle(String articleId, String type);
+    UserArticleInteraction starArticle(String articleId, String type,Boolean flag);
 
     List<Article> getCollectArticle();
 }

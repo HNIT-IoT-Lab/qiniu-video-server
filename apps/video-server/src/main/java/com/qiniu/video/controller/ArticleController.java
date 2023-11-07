@@ -93,8 +93,11 @@ public class ArticleController {
      * 将当前视频id传过来就行，以及类型
      */
     @PostMapping("/starOrCollectArticle")
-    public UserArticleInteraction starOrCollectArticle(@RequestParam @NotNull String articleId , @RequestParam String type){
-         return articleService.starArticle(articleId,type);
+    public UserArticleInteraction starOrCollectArticle(@RequestParam @NotNull String articleId,
+                                                       @RequestParam String type,
+                                                       @RequestParam Boolean flag
+    ){
+         return articleService.starArticle(articleId,type,flag);
     }
 
     /**

@@ -54,4 +54,20 @@ public class Article extends BaseEntity implements Serializable {
      * 种类
      */
     private UserFileConstant.UserFileKind articleKind;
+    /**
+     * 是否点赞
+     */
+    private Boolean isLike;
+    /**
+     * 点赞数量
+     */
+    private Integer likeCounts;
+    /**
+     * 是否收藏
+     */
+    private Boolean isCollect;
+    /**
+     * 收藏数量
+     */
+    private Integer collectionCounts;
 }

@@ -79,6 +79,10 @@ public class ArticleServiceImpl implements ArticleService {
                     .cover(cover)
                     .articleKind(GenKind(upload))
                     .urlList(new ArrayList<>(Arrays.asList(upload)))
+                    .likeCounts(0)
+                    .collectionCounts(0)
+                    .isLike(false)
+                    .isCollect(false)
                     .build());
         });
         Future<?> f2 = asyncExecutor.submit(() -> {
@@ -157,6 +161,7 @@ public class ArticleServiceImpl implements ArticleService {
         articlePage.setPageNo(pageVo.getCurrentPage());
         //这一页的条数
         articlePage.setPageSize(pageVo.getPageSize());
+
         return articlePage;
     }
 
@@ -184,14 +189,29 @@ public class ArticleServiceImpl implements ArticleService {
     /**
      * 点赞
      * 用户文章交互类中增加一条记录
+     * 点赞或者收藏时在Article里根据articleId更新数据
      * @param articleId
      */
     @Override
-    public UserArticleInteraction starArticle(String articleId,String type) {
+    public UserArticleInteraction starArticle(String articleId,String type,Boolean flag) {
         //拿到当前用户
         Long userId = UserContext.getUserId();
+        Article article = articleDao.findOne(Query.query(Criteria.where(BaseEntity.Fields.id).is(articleId)));
         //判断是点赞还是收藏
         if(type.equals(UserArticleInteractionConstant.InteractionType.LIKE)){
+            //Article表里增加点赞数
+            if(flag){
+                articleDao.save(Article.builder()
+                        .isLike(true)
+                        .likeCounts(article.getLikeCounts() + 1)
+                        .build());
+            }else{
+                articleDao.save(Article.builder()
+                        .isLike(false)
+                        .likeCounts(article.getLikeCounts() - 1)
+                        .build());
+            }
+
             return userArticleInteractionDao.save(UserArticleInteraction.builder()
                     .articleId(articleId)
                     .userId(String.valueOf(userId))
@@ -199,6 +219,17 @@ public class ArticleServiceImpl implements ArticleService {
                     .build()
             );
         }else{
+            if(flag){
+                articleDao.save(Article.builder()
+                        .isLike(true)
+                        .collectionCounts(article.getCollectionCounts() + 1)
+                        .build());
+            }else{
+                articleDao.save(Article.builder()
+                        .isLike(false)
+                        .collectionCounts(article.getCollectionCounts() - 1)
+                        .build());
+            }
             return userArticleInteractionDao.save(UserArticleInteraction.builder()
                     .articleId(articleId)
                     .userId(String.valueOf(userId))
